@@ -10,7 +10,7 @@ const multiplayer = require("./multiplayer"); // buscar el archivo multiplayer
 const db = new Database(); //Crear base de datos
 // Crear app express
  // Crear servidor HTTP
-const port = process.env.PORT || 8000; // Dejar puerto
+const PORT = process.env.PORT || 3000; // Dejar puerto
 const http = require("http").createServer(app); //HHTP para el backend web
 var io = require('socket.io')(http)//Socket
 let err = null;
@@ -198,7 +198,7 @@ app.use(express.static(__dirname));
 
 
 // Express listen puerto
-http.listen(8080, () => {
+http.listen(PORT, () => {
   console.log('listening on *:3000');
 });
 
