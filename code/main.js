@@ -14,6 +14,18 @@ add([
 ])
 
 //Evento click ()null
+  onKeyDown("right", () => {
+    player.move(MOVE_SPEED, 0)
+  })
+
+
+  onKeyPress("up", () => {
+
+    if (player.isGrounded()) {
+      player.jump(JUMP_FORCE)
+    }
+  })
+
 onClick(() => {
 	addKaboom(mousePos())
 })
