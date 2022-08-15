@@ -1,5 +1,16 @@
 {
-	"name": "kaboom-env",
+  "name": "Luisnet_manager",
+  "version": "1.0.0",
+  "description": "#LuisNet Package Manager",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "prod": "webpack --config webpackprod.config.js",
+    "heroku-postbuild": "node setup",
+    "watch": "webpack --config webpack.config.js --watch --progress",
+    "test": "node run.js",
+    "start": "node run.js"
+  },
 	"dependencies": {
 		"@replit/database": "^2.0.1",
 		"esbuild": "^0.14.13",
