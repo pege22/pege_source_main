@@ -1,4 +1,5 @@
-import kaboom from "kaboom" //Cargar librería de el juego
+import kaboom from "kaboom" //Cargar librería de el juego 
+//si
 
 var socket = io();//Socket
 socket.emit('newPlayer'); //Socket emite
