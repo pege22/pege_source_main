@@ -80,7 +80,7 @@ onKeyPress("b", burp)
 
 
 onKeyPress("w"), () => {
-  player.move(-MOVE_SPEED, 23)
+  player.move(-MOVE_SPEED, 1000)
 };
 
 
