@@ -1,7 +1,2 @@
-# 🍎 Pege's proyect 
+# pege_source_main
 Proyecto PEGE 2022
-
-[Documentación](https://docspege.luisweb.cf)
-<br>
-[DEV Environment](https://little-explorers-pege.herokuapp.com)
-<br>

@@ -2913,13 +2913,55 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }, "default");
 
   // code/main.js
+  var socket = io();
+  socket.emit("newPlayer");
+  var state = [];
   no();
   loadSprite("voto_petro", "sprites/voto_petro.png");
-  add([
-    sprite("voto_petro"),
-    pos(1e3, 400),
-    area()
-  ]);
+  var controller = {
+    left: false,
+    right: false,
+    up: false,
+    down: false
+  };
+  onKeyPress("right", () => {
+    controller.right = true;
+  });
+  onKeyRelease("right", () => {
+    controller.right = false;
+  });
+  onKeyPress("up", () => {
+    controller.up = true;
+  });
+  onKeyRelease("up", () => {
+    controller.up = false;
+  });
+  onKeyPress("down", () => {
+    controller.down = true;
+  });
+  onKeyRelease("down", () => {
+    controller.down = false;
+  });
+  onKeyPress("left", () => {
+    controller.left = true;
+  });
+  onKeyRelease("left", () => {
+    controller.left = false;
+  });
+  socket.on("state", (gameState) => {
+    state = gameState;
+    every(destroy);
+    for (let player2 in gameState.players) {
+      var pPos = gameState.players[player2];
+      add([
+        sprite("voto_petro"),
+        pos(pPos.x, pPos.y)
+      ]);
+    }
+  });
+  setInterval(() => {
+    socket.emit("playerMovement", controller);
+  }, 1e3 / 60);
   onClick(() => {
     addKaboom(mousePos());
   });

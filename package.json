@@ -1,4 +1,9 @@
 {
+"devDependencies": {
+},
+"browser": {
+    "crypto": false
+},
   "name": "Luisnet_manager",
   "version": "1.0.0",
   "description": "#LuisNet Package Manager",
@@ -9,12 +14,13 @@
     "test": "node run.js",
     "start": "node run.js"
   },
-	"dependencies": {
-		"@replit/database": "^2.0.1",
-		"esbuild": "^0.14.13",
-		"express": "^4.17.1",
-		"kaboom": "^2000.2.9",
-		"stacktrace-js": "^2.0.2",
-		"ws": "^8.2.0"
-	}
+  "dependencies": {
+    "@replit/database": "^2.0.1",
+    "esbuild": "^0.14.13",
+    "express": "^4.17.1",
+    "kaboom": "^2000.2.9",
+    "socket.io": "^4.5.1",
+    "stacktrace-js": "^2.0.2",
+    "ws": "^8.2.0"
+  }
 }

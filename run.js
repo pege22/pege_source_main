@@ -1,22 +1,70 @@
-// kaboom dev server
-
+// LuisNet backend nodejs
 const fs = require("fs");
 const path = require("path");
 const esbuild = require("esbuild");
+var app = require('express')();
 const express = require("express");
 const ws = require("ws"); //WebSocket para multijugador
-const http = require("http"); //HHTP para el backend web
 const Database = require("@replit/database"); //Conectar base de datos
 const multiplayer = require("./multiplayer"); // buscar el archivo multiplayer
 const db = new Database(); //Crear base de datos
-const app = express(); // Crear app express
-const server = http.createServer(app); // Crear servidor HTTP
+// Crear app express
+ // Crear servidor HTTP
 const port = process.env.PORT || 8000; // Dejar puerto
+const http = require("http").createServer(app); //HHTP para el backend web
+var io = require('socket.io')(http)//Socket
 let err = null;
 
 // Empezar el servidor multijugador
-multiplayer(server);
+multiplayer(http);
+//Mapear los jugadores
+const gameState = {
+  players: {}
+}
+io.on('connection', (socket) => {
+  socket.on('newPlayer', () => {
+    //Someone joined!
+    gameState.players[socket.id] = {
+      x: 250,
+      y: 250,
+    }
+    console.log("Servidor en uso #Luisnet")
+  })
 
+  socket.on('playerMovement', (playerMovement) => {
+    //Alguien se movio
+    const player = gameState.players[socket.id]
+    //Setear canvas
+    const canvasWidth = 1200
+    const canvasHeight = 700
+
+    //Usar objetos para que los jugadores muevan ciertas coordenadas
+    if (playerMovement.left && player.x > 0) {
+      player.x -= 4
+    }
+    if (playerMovement.right && player.x < canvasWidth) {
+    player.x += 4
+  }
+    
+    if (playerMovement.up && player.y > 0) {
+      player.y -= 4
+    }
+    if (playerMovement.down && player.y < canvasHeight) {
+      player.y += 4
+    }
+  })
+
+
+  socket.on("disconnect", () => {
+    //Socket state
+    delete gameState.players[socket.id]
+  })
+})
+
+//Emitir state cada 1 minuo
+setInterval(() => {
+  io.sockets.emit('state', gameState);
+}, 1000 / 60);
 // Construir juego de cliente + setear la función BuildGame()
 function buildGame() {
 
@@ -147,8 +195,12 @@ app.delete("/db/:item", async (req, res) => {
 });
 // Dirname
 app.use(express.static(__dirname));
+
+
 // Express listen puerto
-server.listen(port);
+http.listen(3000, () => {
+  console.log('listening on *:3000');
+});
 
 // Setear colores
 const red = (msg) => `\x1b[31m${msg}\x1b[0m`;
@@ -175,3 +227,4 @@ function render() {
 	}
 
 }
+
