@@ -4,9 +4,7 @@
   "description": "#LuisNet Package Manager",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
     "prod": "webpack --config webpackprod.config.js",
-    "heroku-postbuild": "node setup",
     "watch": "webpack --config webpack.config.js --watch --progress",
     "test": "node run.js",
     "start": "node run.js"
