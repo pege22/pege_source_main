@@ -6,12 +6,14 @@ kaboom() //Iniciar libreria
 
 loadSprite("voto_petro", "sprites/voto_petro.png"); //Cargar sprite 1
 //Añadir sprite
-add([
-
-	sprite("voto_petro"),
-	pos(1000, 400),
-	area(),
-])
+const player = add([
+    sprite("voto_petro"),
+    pos(0, 0),
+    area(),
+    scale(1),
+    body(),
+    origin("bot"),
+  ])
 
 //Evento click ()null
   onKeyDown("right", () => {
