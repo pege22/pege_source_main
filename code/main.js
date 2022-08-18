@@ -11,7 +11,7 @@ background: [ 0, 0, 0 ]
 
 
 
-loadSprite("voto_petro", "sprites/voto_petro.png"); //Cargar sprite 1
+loadSprite("voto_petro", "sprites/pero.gif"); //Cargar sprite 1
 //Añadir sprite
 
 
