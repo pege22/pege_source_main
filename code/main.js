@@ -70,20 +70,16 @@ setInterval(() => {
 
 
 //Evento click ()null
-onClick(() => {
-	addKaboom(mousePos())
-})
+
 
 //On kay press evento
 onKeyPress("b", burp)
 
 
 
-onKeyPress("w"), () => {
-  player.move(-MOVE_SPEED, 23)
-};
+
 
 
 onKeyPress("v", burp)
-onKeyPress("s"), () => { player.move(-MOVE_SPEED, 23) };
+
 
