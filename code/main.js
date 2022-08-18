@@ -5,7 +5,9 @@ socket.emit('newPlayer'); //Socket emite
 
 var state = [];
 
-kaboom(); //Iniciar libreria
+kaboom({
+background: [ 0, 0, 0 ]
+});
 
 
 
