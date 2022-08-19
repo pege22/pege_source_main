@@ -28,7 +28,8 @@ echo Correo: soporte@luisweb.cf
 sleep 1
 echo Iniciando webserver..
 sleep 1
-echo WebServer iniciado en el puerto 8080 y websocket en el puerto 3000 | Heroku env #FixByLuis
+echo WebServer iniciado en el puerto 8080 y websocket en el puerto 3000 | 
+Heroku env #FixByLuis
 sleep 2
 npm install
 clear

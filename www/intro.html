@@ -1,0 +1,79 @@
+<html>
+  <!DOCTYPE html>
+<meta name="title" content="LuisNet">
+<meta name="description" content="#CodedByLuis">
+
+
+
+<!--#CodedByLuis-->
+<!DOCTYPE html>
+<html lang="en">
+<script>document.addEventListener("DOMContentLoaded", function(){
+    document.body.addEventListener("touchstart", playVideo);
+    function playVideo() {
+        const video = document.getElementById('myVideo');
+        if(video.playing) {
+        } else {
+            video.play();
+        }
+    }
+});
+</script>
+  <style>body {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+img { width: 600px; }
+
+.fullscreen-video {
+    position: fixed;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -10;
+}
+
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 0.6;
+    z-index: -9;
+}</style>
+<body>
+
+
+    <div class="bg-overlay"></div>
+    <video class="fullscreen-video" id="myVideo" autoplay="autoplay" muted loop>
+        <source src="https://cloud.luisweb.cf/cloud/pel.mp4">
+        ERROR, CONTACTA CON LUIS
+    </video>
+
+</body>
+
+
+
+
+
+
+    <body>
+
+    <script>
+        var timer = setTimeout(function() {
+            window.location='https://luisweb.cf/pege/main'
+        }, 10000);
+    </script>
+</body>
+</html>

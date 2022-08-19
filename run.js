@@ -1,7 +1,7 @@
 // LuisNet backend nodejs
-const fs = require("fs");
+const fs = require("fs");// importar el file interpreter (fs)
 const path = require("path");
-const esbuild = require("esbuild");
+const esbuild = require("esbuild"); //BuildGame
 var app = require('express')();
 const express = require("express");
 const ws = require("ws"); //WebSocket para multijugador
@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('playerMovement', (playerMovement) => {
-    //Alguien se movio
+    //Alguien se movió
     const player = gameState.players[socket.id]
     //Setear canvas
     const canvasWidth = 1200
@@ -128,7 +128,22 @@ function buildGame() {
 // Backend principal 
 app.use(express.json({ strict: false }));
 
+
 app.get("/", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/intro.html");
+	render();
+});
+
+app.get("/main", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/index.html");
+	render();
+});
+
+app.get("/jugar", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
 	res.sendFile(__dirname + "/dist/index.html");
@@ -199,7 +214,7 @@ app.use(express.static(__dirname));
 
 // Express listen puerto
 http.listen(PORT, () => {
-  console.log('listening on *:3000');
+  console.log('Socket encendido en el puerto *:3000');
 });
 
 // Setear colores

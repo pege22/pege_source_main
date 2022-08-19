@@ -2916,8 +2916,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   var socket = io();
   socket.emit("newPlayer");
   var state = [];
-  no();
-  loadSprite("voto_petro", "sprites/voto_petro.png");
+  no({
+    background: [0, 0, 0]
+  });
+  loadSprite("voto_petro", "sprites/pero.gif");
   var controller = {
     left: false,
     right: false,
@@ -2951,8 +2953,8 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   socket.on("state", (gameState) => {
     state = gameState;
     every(destroy);
-    for (let player2 in gameState.players) {
-      var pPos = gameState.players[player2];
+    for (let player in gameState.players) {
+      var pPos = gameState.players[player];
       add([
         sprite("voto_petro"),
         pos(pPos.x, pPos.y)
@@ -2962,16 +2964,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   setInterval(() => {
     socket.emit("playerMovement", controller);
   }, 1e3 / 60);
-  onClick(() => {
-    addKaboom(mousePos());
-  });
   onKeyPress("b", burp);
-  onKeyPress("w"), () => {
-    player.move(-MOVE_SPEED, 23);
-  };
   onKeyPress("v", burp);
-  onKeyPress("s"), () => {
-    player.move(-MOVE_SPEED, 23);
-  };
 })();
 //# sourceMappingURL=game.js.map
