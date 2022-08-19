@@ -1,10 +1,10 @@
-# 🍎 Proyecto PEGE
+# 🍎 PEGE's Proyect
 
-¿Cómo empezar?
-[🧾Documentación](https://luisweb.cf/docs)
+How to start?
+[🧾Documentation](https://luisweb.cf/docs)
 [👨‍💻DEV Environment](http://swordbattle.io)
 
-#Proyecto PEGE 2022 
+#PEGEProyect2022
 #LuisAPI for sockets 😳
 #Game 💎
 #Winner 👀
