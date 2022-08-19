@@ -8,6 +8,7 @@ const ws = require("ws"); //WebSocket para multijugador
 const Database = require("@replit/database"); //Conectar base de datos
 const multiplayer = require("./multiplayer"); // buscar el archivo multiplayer
 const db = new Database(); //Crear base de datos
+const helmet = require("helmet"); //helmet
 // Crear app express
  // Crear servidor HTTP
 const PORT = process.env.PORT || 3000; // Dejar puerto
@@ -15,6 +16,18 @@ const http = require("http").createServer(app); //HHTP para el backend web
 var io = require('socket.io')(http)//Socket
 let err = null;
 
+//Start security improvements + rate-liumit + helmet HEADERS BLOCK
+const rateLimit = require("express-rate-limit");
+	const limiter = rateLimit({
+		windowMs: 60 * 1000, // 1 min
+		max: 23, // limitar IPs cada 300 requests
+		message: "Su IP fue bloqueada con el fin de evitar que la web caiga, pues su trafico es sospechoso, si considera esto un error considere reportarlo a soporte@luisweb.cf o admin@luisweb.cf - LuisSec" //Añadir mensaje de error cuando esta activo
+	});
+	app.use(limiter);
+
+
+//Usar npm "helmet" para protejer la web un poco
+app.use(helmet());
 // Empezar el servidor multijugador
 multiplayer(http);
 //Mapear los jugadores
