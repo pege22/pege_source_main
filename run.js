@@ -149,6 +149,13 @@ app.get("/", (req, res) => {
 	render();
 });
 
+app.get("/usa", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/servers/eu.html");
+	render();
+});
+
 app.get("/main", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
