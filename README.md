@@ -4,7 +4,7 @@ How to start?
 [🧾Documentation](https://luisweb.cf/docs)
 [👨‍💻DEV Environment](http://swordbattle.io)
 
-Game Status; 21.2%
+Game Status; 22.3%
 TASKS (FULL)
 #PEGEProyect2022
 #LuisAPI for sockets 😳
