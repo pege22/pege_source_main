@@ -25,13 +25,15 @@ echo Discord: Luis!#5902
 echo Github: LUIS9799
 echo Telegram: L9799
 echo Correo: soporte@luisweb.cf
+echo       BACKEND SH FOR PEGE PROYECT
 sleep 1
 echo Iniciando webserver..
 sleep 1
-echo WebServer iniciado en el puerto 8080 y websocket en el puerto 3000 | 
-Heroku env #FixByLuis
+echo WebServer iniciado en el puerto 8080 y websocket en el puerto 3000 
+#Heroku fix by luis
 sleep 2
 npm install
+sleep 2
 clear
 sleep 1
 node run.js
