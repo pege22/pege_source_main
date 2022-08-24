@@ -15,8 +15,9 @@ const PORT = process.env.PORT || 3000; // Dejar puerto
 const http = require("http").createServer(app); //HHTP para el backend web
 var io = require('socket.io')(http)//Socket
 let err = null;
-
-//Start security improvements + rate-liumit + helmet HEADERS BLOCK
+//Fixed ratelimit cuando se efectua un ataque DoS comunicando a la Ip del servidor en si del socket
+//Añadido WAF para bypassear la proxy del colegio ;)
+//Start security improvements + rate-limit + helmet HEADERS BLOCK
 const rateLimit = require("express-rate-limit");
 	const limiter = rateLimit({
 		windowMs: 60 * 1000, // 1 min
