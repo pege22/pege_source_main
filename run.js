@@ -21,7 +21,7 @@ let err = null;
 const rateLimit = require("express-rate-limit");
 	const limiter = rateLimit({
 		windowMs: 60 * 1000, // 1 min
-		max: 22, // limitar IPs cada 22 requests
+		max: 20, // limitar IPs cada 22 requests
 		message: "Su IP fue bloqueada con el fin de evitar que la web caiga, pues su trafico es sospechoso, si considera esto un error considere reportarlo a soporte@luisweb.cf o admin@luisweb.cf - LuisSec" //Añadir mensaje de error cuando esta activo
 	});
 	app.use(limiter);
@@ -150,6 +150,20 @@ app.get("/", (req, res) => {
 	render();
 });
 
+app.get("/f1", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/introf1.html");
+	render();
+});
+
+app.get("/menu", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/index.html");
+	render();
+});
+
 app.get("/usa", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
@@ -157,12 +171,7 @@ app.get("/usa", (req, res) => {
 	render();
 });
 
-app.get("/main", (req, res) => {
-	err = null;
-	buildGame(); //Mostrar juego
-	res.sendFile(__dirname + "/www/index.html");
-	render();
-});
+
 
 app.get("/jugar", (req, res) => {
 	err = null;
