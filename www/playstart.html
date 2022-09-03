@@ -1,65 +1,38 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>LuisNet</title>
+
+<body class="loading">
+
 <style>
-body {
-  background: #000000;
-  padding-top: 5em;
-  display: flex;
-  justify-content: center;
-}
-h1 {
-  font-size: 65px;
-}
-
-.typewriter h1 {
-  color: #fff;
-  font-family: aboreto;
-  overflow: hidden; 
-  white-space: nowrap; 
-  text-align: center;
-  line-height: 200px;
-  margin: 0 auto; 
-  letter-spacing: .15em; 
-  animation: 
-    typing 3.5s steps(30, end),
-    blink-caret .5s step-end infinite;
-}
+			body {
+				-webkit-transition: background-color 1s;
+				transition: background-color 1s;
+			}
+			html, body { min-height: 100%; }
+			body.loading {
+				background: #333 url('https://cloud.luisweb.cf/cloud/Warning!!.gif') no-repeat 50% 50%;
+				-webkit-transition: background-color 0;
+				transition: background-color 0;
+				opacity: 0;
+				-webkit-transition: opacity 0;
+				transition: opacity 0;
+			}
+		 </style>
 
 
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
 
 
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: orange }
-}
-</style>
-</head>
+     <script>
+     			var body = document.getElementsByTagName('body')[0];
+			var removeLoading = function() {
+			
+				setTimeout(function() {
+					body.className = body.className.replace(/loading/, '');
+				}, 7000);
+			};
+			removeLoading();
+      </script>
 <script>
   var timer = setTimeout(function() {
     window.location = 'https://little-explorers-pege.herokuapp.com/jugar'
-  }, 1000);
+  }, 7000);
 </script>
-<body>
-<div class="typewriter">
-  <h1>WARNING!!</h1>
-  <h1>Due technical errors</h1>
-  <h1>You must reload website aprox. 4 or 5 times</h1>
-  <h1>Then, Game will load</h1>
-    <img src= "https://cloud.luisweb.cf/cloud/samgif.gif">
-</div>
-
-
-
-
-</body>
-
-</html>
