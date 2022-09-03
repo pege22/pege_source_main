@@ -4,7 +4,8 @@ import loadAssets from "./assets"
 //CompetPanas
 kaboom({ 
   scale: 1,
-	font: "sinko",
+font: "sinko",
+background: [ 0, 0, 0 ]
 })
 loadAssets()
 function patrol(speed = 60, dir = 1) {
