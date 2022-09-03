@@ -33,7 +33,7 @@ loadSprite("dino", "/sprites/dino.png", {
 	},
 })
 
-const SPEED = 50
+const SPEED = 100
 const JUMP_FORCE = 240
 
 gravity(640)
