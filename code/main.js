@@ -1,20 +1,67 @@
-//CodedByLuis
 import kaboom from "kaboom"
-
-kaboom({
-
-	scale: 6,  
-
+import loadAssets from "./assets"
+//CodedByLuis
+//CompetPanas
+kaboom({ 
+  scale: 1,
 	font: "sinko",
 })
+loadAssets()
+function patrol(speed = 60, dir = 1) {
+	return {
+		id: "patrol",
+		require: [ "pos", "area", ],
+		add() {
+			this.on("collide", (obj, col) => {
+				if (col.isLeft() || col.isRight()) {
+					dir = -dir
+				}
+			})
+		},
+		update() {
+			this.move(speed * dir, 0)
+		},
+	}
+}
 
-
+function big() {
+	let timer = 0
+	let isBig = false
+	let destScale = 1
+	return {
+		id: "big",
+		require: [ "scale" ],
+		update() {
+			if (isBig) {
+				timer -= dt()
+				if (timer <= 0) {
+					this.biggify()
+				}
+			}
+			this.scale = this.scale.lerp(vec2(destScale), dt() * 6)
+		},
+		isBig() {
+			return isBig
+		},
+		smallify() {
+			destScale = 1
+			timer = 0
+			isBig = false
+		},
+		biggify(time) {
+			destScale = 2
+			timer = time
+			isBig = true
+		},
+	}
+}
 loadSprite("dino", "/sprites/dino.png", {
 
 	sliceX: 9,
 
 	anims: {
 		"idle": {
+      
 
 			from: 0,
 			to: 3,
@@ -32,31 +79,114 @@ loadSprite("dino", "/sprites/dino.png", {
 		"jump": 8
 	},
 })
+// define some constants
+const JUMP_FORCE = 1320
+const MOVE_SPEED = 300
+const FALL_DEATH = 2400
 
-const SPEED = 100
-const JUMP_FORCE = 240
+const LEVELS = [
+	[
+		"                          $",
+		"                          $",
+		"                          $",
+		"                          $",
+		"                          $",
+		"           $$         =   $",
+		"  %      ====         =   $",
+		"                      =   $",
+		"                      =    ",
+		"             = >    =   @",
+		"===========================",
+	],
+	[
+		"     $    $    $    $     $",
+		"     $    $    $    $     $",
+		"                           ",
+		"                           ",
+		"                           ",
+		"                           ",
+		"                           ",
+		" ^^^^>^^^^>^^^^>^^^^>^^^^^@",
+		"===========================",
+	],
+]
 
-gravity(640)
+
+const levelConf = {
+	width: 64,
+	height: 64,
+	"=": () => [
+		sprite("grass"),
+		area(),
+		solid(),
+		origin("bot"),
+	],
+	"$": () => [
+		sprite("coin"),
+		area(),
+		pos(0, -9),
+		origin("bot"),
+		"coin",
+	],
+	"%": () => [
+		sprite("prize"),
+		area(),
+		solid(),
+		origin("bot"),
+		"prize",
+	],
+	"^": () => [
+		sprite("spike"),
+		area(),
+		solid(),
+		origin("bot"),
+		"danger",
+	],
+	"#": () => [
+		sprite("apple"),
+		area(),
+		origin("bot"),
+		body(),
+		"apple",
+	],
+	">": () => [
+		sprite("ghosty"),
+		area(),
+		origin("bot"),
+		body(),
+		patrol(),
+		"enemy",
+	],
+	"@": () => [
+		sprite("portal"),
+		area({ scale: 0.5, }),
+		origin("bot"),
+		pos(0, -12),
+		"portal",
+	],
+}
+
+scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+
+	gravity(3200)
+
+
+	const level = addLevel(LEVELS[levelId ?? 0], levelConf)
 
 
 const player = add([
 	sprite("dino"),
-	pos(center()),
+	pos(0, 0),
 	origin("center"),
 	area(),
 	body(),
+  scale(22),
+  big(),
+	origin("bot"),
 ])
+  player.play("idle")
 
 
-player.play("idle")
-
-add([
-	rect(width(), 24),
-	area(),
-	outline(1),
-	pos(0, height() - 24),
-	solid(),
-])
 
 
 
@@ -75,22 +205,24 @@ player.onAnimEnd("idle", () => {
 onKeyPress("space", () => {
 	if (player.isGrounded()) {
 		player.jump(JUMP_FORCE)
+    player.biggify(3)
 		player.play("jump")
 	}
 })
 
 onKeyDown("left", () => {
-	player.move(-SPEED, 0)
+	player.move(-MOVE_SPEED, 0)
 	player.flipX(true)
-
+  player.biggify(5)
 	if (player.isGrounded() && player.curAnim() !== "run") {
 		player.play("run")
 	}
 })
 
 onKeyDown("right", () => {
-	player.move(SPEED, 0)
+	player.move(MOVE_SPEED, 0)
 	player.flipX(false)
+  player.biggify(5)
 	if (player.isGrounded() && player.curAnim() !== "run") {
 		player.play("run")
 	}
@@ -101,3 +233,142 @@ onKeyRelease(["left", "right"], () => {
 		player.play("idle")
 	}
 })
+
+
+	player.onUpdate(() => {
+
+		camPos(player.pos)
+
+		if (player.pos.y >= FALL_DEATH) {
+			go("lose")
+		}
+	})
+
+	player.onCollide("danger", () => {
+		go("game")
+		play("hit")
+	})
+
+	player.onCollide("portal", () => {
+		play("portal")
+		if (levelId + 1 < LEVELS.length) {
+			go("game", {
+				levelId: levelId + 1,
+				coins: coins,
+			})
+		} else {
+			go("win")
+		}
+	})
+
+	player.onGround((l) => {
+		if (l.is("enemy")) {
+			player.jump(JUMP_FORCE * 1.5)
+			destroy(l)
+			play("powerup")
+		}
+	})
+
+	player.onCollide("enemy", (e, col) => {
+
+		if (!col.isBottom()) {
+			go("lose")
+			play("hit")
+		}
+	})
+
+	let hasApple = false
+
+
+	player.onHeadbutt((obj) => {
+		if (obj.is("prize") && !hasApple) {
+			const apple = level.spawn("#", obj.gridPos.sub(0, 1))
+			apple.jump()
+			hasApple = true
+			play("blip")
+		}
+	})
+
+
+	player.onCollide("apple", (a) => {
+		destroy(a)
+
+		player.biggify(5)
+		hasApple = false
+		play("powerup")
+	})
+
+	let coinPitch = 0
+
+	onUpdate(() => {
+		if (coinPitch > 0) {
+			coinPitch = Math.max(0, coinPitch - dt() * 100)
+		}
+	})
+
+	player.onCollide("coin", (c) => {
+		destroy(c)
+    player.biggify(5)
+		play("coin", {
+			detune: coinPitch,
+		})
+		coinPitch += 100
+		coins += 1
+		coinsLabel.text = coins
+	})
+
+	const coinsLabel = add([
+		text(coins),
+		pos(24, 24),
+		fixed(),
+	])
+
+
+	onKeyPress("space", () => {
+
+		if (player.isGrounded()) {
+			player.jump(JUMP_FORCE)
+      player.biggify(5)
+		}
+	})
+
+	onKeyDown("left", () => {
+		player.move(-MOVE_SPEED, 0)
+    player.biggify(5)
+	})
+
+	onKeyDown("right", () => {
+		player.move(MOVE_SPEED, 0)
+    player.biggify(5)
+	})
+
+	onKeyPress("down", () => {
+		player.weight = 3
+    
+	})
+
+	onKeyRelease("down", () => {
+		player.weight = 1
+	})
+
+	onKeyPress("f", () => {
+		fullscreen(!fullscreen())
+	})
+
+})
+
+scene("lose", () => {
+	add([
+		text("DEVOPS"),
+	])
+	onKeyPress(() => go("game"))
+})
+
+scene("win", () => {
+	add([
+		text("DEVOPS"),
+	])
+	onKeyPress(() => go("game"))
+})
+
+go("game")
