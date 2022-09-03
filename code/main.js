@@ -50,7 +50,13 @@ const player = add([
 
 player.play("idle")
 
-
+add([
+	rect(width(), 24),
+	area(),
+	outline(1),
+	pos(0, height() - 24),
+	solid(),
+])
 
 
 
