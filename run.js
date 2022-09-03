@@ -156,6 +156,13 @@ app.use(express.json({ strict: false }));
 app.get("/", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/index.html");
+	render();
+});
+
+app.get("/load", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
 	res.sendFile(__dirname + "/www/intro.html");
 	render();
 });
@@ -179,7 +186,7 @@ app.get("/f1", (req, res) => {
 app.get("/menu", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
-	res.sendFile(__dirname + "/www/index.html");
+	res.sendFile(__dirname + "/www/menu.html");
 	render();
 });
 
