@@ -11,7 +11,7 @@ h1 {
 
 .typewriter h1 {
   color: #fff;
-  font-family: monospace;
+  font-family: aboreto;
   overflow: hidden; /* Ensures the content is not revealed until the animation */
   white-space: nowrap; /* Keeps the content on a single line */
   text-align: center;

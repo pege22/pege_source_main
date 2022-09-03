@@ -1,0 +1,1 @@
+loadSprite("voto_petro", "/sprites/pero.gif");
