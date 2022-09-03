@@ -1,5 +1,4 @@
 export default function loadAssets() {
-	loadSprite("bean", "sprites/bean.png");
 	loadSprite("ghosty", "sprites/ghosty.png");
 	loadSprite("spike", "sprites/spike.png");
 	loadSprite("grass", "sprites/grass.png");
@@ -14,3 +13,4 @@ export default function loadAssets() {
 	loadSound("hit", "sounds/hit.mp3");
 	loadSound("portal", "sounds/portal.mp3");
 }
+//fixed bean
