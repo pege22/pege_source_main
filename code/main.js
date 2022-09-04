@@ -80,7 +80,7 @@ loadSprite("dino", "/sprites/dino.png", {
 		"jump": 8
 	},
 })
-// define some constants
+
 const JUMP_FORCE = 1320
 const MOVE_SPEED = 300
 const FALL_DEATH = 2400
@@ -95,7 +95,7 @@ const LEVELS = [
 		"=       $ $               =",
 		"=      $  =      $$       =",
 		"=     $   =     ====      =",
-		"=         =               =",
+		"=  >      =           a   =",
 		"=         = $$$$$$$$$$$  @=",
 		"===========================",
 	],
@@ -209,7 +209,7 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
 	const level = addLevel(LEVELS[levelId ?? 0], levelConf)
 
-
+let myCheckpoint = vec2(177, 179)
 const player = add([
 	sprite("dino"),
 	pos(88, 88),
@@ -220,9 +220,12 @@ const player = add([
   big(),
 	origin("bot"),
 ])
-  player.play("idle")
 
-
+player.onUpdate(() => {
+     if(player.pos.x > 210) { 
+         myCheckpoint = vec2(210, 80);
+     }
+})
 
 
 
@@ -276,12 +279,12 @@ onKeyRelease(["left", "right"], () => {
 		camPos(player.pos)
 
 		if (player.pos.y >= FALL_DEATH) {
-			go("lose")
+			player.pos = myCheckpoint;
 		}
 	})
 
 	player.onCollide("danger", () => {
-		go("game")
+		player.pos = myCheckpoint;
 		play("hit")
 	})
 
@@ -300,16 +303,19 @@ onKeyRelease(["left", "right"], () => {
 	player.onGround((l) => {
 		if (l.is("enemy")) {
 			player.jump(JUMP_FORCE * 1.5)
-			destroy(l)
 			play("powerup")
 		}
 	})
 
+player.onCollide("player", "enemy", (p, e) => {
+    player.pos = myCheckpoint;
+})
+
 	player.onCollide("enemy", (e, col) => {
 
 		if (!col.isBottom()) {
-			go("lose")
 			play("hit")
+      player.pos = myCheckpoint;
 		}
 	})
 
@@ -385,6 +391,7 @@ onKeyRelease(["left", "right"], () => {
 
 	onKeyRelease("down", () => {
 		player.weight = 1
+    player.pos = myCheckpoint;
 	})
 
 	onKeyPress("f", () => {
@@ -395,9 +402,11 @@ onKeyRelease(["left", "right"], () => {
 
 scene("lose", () => {
 	add([
-		text("DEVOPS"),
+		text("CHECKPOINT TEST"),
 	])
-	onKeyPress(() => go("game"))
+	onKeyRelease(() => {
+    player.pos = myCheckpoint;
+	})
 })
 
 scene("win", () => {
