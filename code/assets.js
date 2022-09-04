@@ -1,6 +1,6 @@
 export default function loadAssets() {
 	loadSprite("ghosty", "sprites/ghosty.png");
-	loadSprite("spike", "sprites/spikes_Animation 1_0.png");
+	loadSprite("spike", "sprites/spikes2_Animation 1_0.png");
 	loadSprite("grass", "sprites/grass2_Animation 1_0.png");
 	loadSprite("prize", "sprites/jumpy.png");
 	loadSprite("apple", "sprites/apple.png");
