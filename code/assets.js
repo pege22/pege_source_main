@@ -6,7 +6,7 @@ export default function loadAssets() {
 	loadSprite("apple", "sprites/apple.png");
 	loadSprite("portal", "sprites/portal.png");
 	loadSprite("npc", "sprites/p1fix.png");
-	loadSprite("coin", "sprites/coin.png");
+	loadSprite("coin", "sprites/moneda 3.png");
   	loadSprite("dino", "/sprites/dino.png");
 	loadSound("coin", "sounds/score.mp3");
 	loadSound("powerup", "sounds/powerup.mp3");
