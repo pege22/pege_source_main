@@ -212,7 +212,7 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
 const player = add([
 	sprite("dino"),
-	pos(2, 2),
+	pos(88, 88),
 	origin("center"),
 	area(),
 	body(),
