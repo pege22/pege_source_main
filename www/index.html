@@ -21,6 +21,38 @@
     <meta property="og:title" content="Casa">
     <meta property="og:type" content="website">
   </head>
+	
+	<body class="loading">
+
+<style>
+			body {
+				-webkit-transition: background-color 1s;
+				transition: background-color 1s;
+			}
+			html, body { min-height: 100%; }
+			body.loading {
+				background: #333 url('https://cloud.luisweb.cf/cloud/principalwarn.gif') no-repeat 50% 50%;
+				-webkit-transition: background-color 0;
+				transition: background-color 0;
+				opacity: 0;
+				-webkit-transition: opacity 0;
+				transition: opacity 0;
+			}
+		 </style>
+
+
+
+
+     <script>
+     			var body = document.getElementsByTagName('body')[0];
+			var removeLoading = function() {
+			
+				setTimeout(function() {
+					body.className = body.className.replace(/loading/, '');
+				}, 7000);
+			};
+			removeLoading();
+      </script>
   <body class="u-body u-xl-mode" data-lang="es">
     <section class="u-clearfix u-section-1" id="sec-aa34">
       <div class="u-clearfix u-sheet u-valign-top u-sheet-1">
