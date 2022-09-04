@@ -2,6 +2,7 @@ import kaboom from "kaboom"
 import loadAssets from "./assets"
 //CodedByLuis
 //CompetPanas
+//#LuisNet
 kaboom({ 
   scale: 1,
 font: "sinko",
@@ -399,7 +400,8 @@ player.onCollide("player", "enemy", (p, e) => {
 
 	onKeyRelease("down", () => {
 		player.weight = 1
-    player.pos = myCheckpoint;
+    //player.pos = myCheckpoint;
+		//fixed spawnpoint on Key release
 	})
 
 	onKeyPress("f", () => {
@@ -410,7 +412,7 @@ player.onCollide("player", "enemy", (p, e) => {
 
 scene("lose", () => {
 	add([
-		text("CHECKPOINT TEST"),
+		text("NOT USED, HOWEVER DEVELOPERS KNOW WHAT THEY DO ;)"),
 	])
 	onKeyRelease(() => {
     player.pos = myCheckpoint;
