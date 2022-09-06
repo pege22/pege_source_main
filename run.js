@@ -174,7 +174,12 @@ app.get("/playstart", (req, res) => {
 	render();
 });
 
-
+app.get("/ctrl", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/controls.html");
+	render();
+});
 
 app.get("/f1", (req, res) => {
 	err = null;
