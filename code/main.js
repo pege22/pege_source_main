@@ -461,6 +461,12 @@ player.onCollide("player", "enemy", (p, e) => {
 	onKeyPress("f", () => {
 		fullscreen(!fullscreen())
 	})
+		onKeyPress("f4", () => {
+		add([
+			text("tramposo - 0.5")
+			])
+			
+	})
 
 })
 
