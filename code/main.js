@@ -6,7 +6,7 @@ import loadAssets from "./assets"
 //#LuisNet
 kaboom({ 
 debug: false,	
- scale: 3,
+ scale: 1, //FixedScale
 font: "sinko",
 background: [ 0, 0, 0 ]
 })
