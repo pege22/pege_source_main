@@ -5,7 +5,8 @@ import loadAssets from "./assets"
 //CompetPanas
 //#LuisNet
 kaboom({ 
-  scale: 1,
+debug: false,	
+ scale: 3,
 font: "sinko",
 background: [ 0, 0, 0 ]
 })
