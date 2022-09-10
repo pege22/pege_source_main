@@ -8,7 +8,7 @@ kaboom({
 debug: false,	
  scale: 1, //FixedScale
 font: "sinko",
-background: [ 0, 0, 0 ]
+background: [ 46, 58, 81 ]
 })
 loadAssets()
 function patrol(speed = 60, dir = 1) {
