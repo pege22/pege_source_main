@@ -60,6 +60,50 @@ function big() {
 	}
 }
 
+scene("menu", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+function addButton(txt, p, f) {
+
+	const btn = add([
+		text(txt),
+		pos(p),
+		area({width: 69, height: 14}),
+		scale(100),
+    big(),
+		origin("center"),
+	])
+
+	btn.onClick(f)
+
+	btn.onUpdate(() => {
+		if (btn.isHovering()) {
+			const t = time() * 20
+			btn.color = rgb(
+				wave(0, 255, t),
+				wave(0, 255, t + 2),
+				wave(0, 255, t + 4),
+			)
+			btn.scale = vec2(10)
+		} else {
+			btn.scale = vec2(10)
+			btn.color = rgb()
+		}
+	})
+
+}
+
+addButton("StartGame", vec2(555, 200), () => go("game"))
+
+
+onUpdate(() => cursor("default"))
+
+})
+
+
+
+
+
+
+
 
 
 const JUMP_FORCE = 1320
@@ -503,4 +547,4 @@ scene("win", () => {
 	onKeyPress(() => go("game"))
 })
 
-go("game")
+go("menu")
