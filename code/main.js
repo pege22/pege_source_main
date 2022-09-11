@@ -59,30 +59,7 @@ function big() {
 		},
 	}
 }
-loadSprite("dino", "/sprites/dino.png", {
 
-	sliceX: 9,
-
-	anims: {
-		"idle": {
-      
-
-			from: 0,
-			to: 3,
-
-			speed: 2,
-			loop: true,
-		},
-		"run": {
-			from: 4,
-			to: 7,
-			speed: 10,
-			loop: true,
-		},
-
-		"jump": 8
-	},
-})
 
 
 const JUMP_FORCE = 1320
@@ -265,6 +242,38 @@ const levelConf = {
 		"portal",
 	],
 }
+
+
+
+
+loadSprite("dino", "/sprites/dino.png", {
+
+	sliceX: 9,
+
+	anims: {
+		"idle": {
+      
+
+			from: 0,
+			to: 3,
+
+			speed: 3,
+			loop: true,
+		},
+		"run": {
+			from: 4,
+			to: 7,
+			speed: 10,
+			loop: true,
+		},
+
+		"jump": 8
+	},
+})
+
+
+
+
 
 scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 
