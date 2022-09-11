@@ -287,7 +287,7 @@ const player = add([
 
 player.onUpdate(() => {
      if(player.pos.x > 210) { 
-         myCheckpoint = vec2(210, 80);
+         myCheckpoint = vec2(210, 580);
      }
 })
 
