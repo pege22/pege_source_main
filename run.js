@@ -160,6 +160,13 @@ app.get("/", (req, res) => {
 	render();
 });
 
+app.get("/cinematic", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/cinematic_1.html");
+	render();
+});
+
 app.get("/load", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
