@@ -278,6 +278,12 @@ const levelConf = {
 		solid(),
 		origin("bot"),
 		"danger",
+	"<": () => [
+		sprite("I-Spike"),
+		area(),
+		solid(),
+		origin("bot"),
+		"danger",
 	],
 	"#": () => [
 		sprite("apple"),
