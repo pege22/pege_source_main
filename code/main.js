@@ -280,7 +280,7 @@ const levelConf = {
 		"danger",
 		],
 	"<": () => [
-		sprite("I-Spike"),
+		sprite("spikevoltiado"),
 		area(),
 		solid(),
 		origin("bot"),
