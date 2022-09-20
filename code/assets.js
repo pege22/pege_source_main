@@ -9,7 +9,7 @@ export default function loadAssets() {
 	loadSprite("npc", "sprites/p1fix.png");
 	loadSprite("coin", "sprites/moneda 4_MONEDA_0.png");
   	loadSprite("dino", "/sprites/dino.png");
-	loadSprite("I-Spike","spikesvolteados_Animation 3_0.png");
+	loadSprite("I-Spike", "spikesvolteados_Animation 3_0.png");
 	loadSound("coin", "sounds/score.mp3");
 	loadSound("powerup", "sounds/powerup.mp3");
 	loadSound("blip", "sounds/blip.mp3");
