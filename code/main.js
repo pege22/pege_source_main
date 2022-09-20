@@ -66,7 +66,7 @@ function addButton(txt, p, f) {
 	const btn = add([
 		text(txt),
 		pos(p),
-		area({width: 69, height: 14}),
+		area({width: 72, height: 18}),
 		scale(100),
     big(),
 		origin("center"),
