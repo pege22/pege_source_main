@@ -91,7 +91,7 @@ function addButton(txt, p, f) {
 
 }
 
-addButton("StartGame", vec2(555, 200), () => go("game"))
+addButton("Start-Game", vec2(775, 200), () => go("game"))
 
 
 onUpdate(() => cursor("default"))
