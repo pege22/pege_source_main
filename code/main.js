@@ -418,7 +418,7 @@ onKeyRelease(["left", "right"], () => {
 
 	player.onCollide("portal", () => {
 		play("portal")
-		location.href = "https://little-explorers-pege.herokuapp.com/cinematic"
+		//location.href = "https://little-explorers-pege.herokuapp.com/cinematic"
 		if (levelId + 1 < LEVELS.length) {
 			go("game", {
 				levelId: levelId + 1,
