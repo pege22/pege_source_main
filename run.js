@@ -198,7 +198,7 @@ app.get("/f1", (req, res) => {
 app.get("/menu", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
-	res.sendFile(__dirname + "/www/menu.html");
+	res.sendFile(__dirname + "/www/error.html");
 	render();
 });
 
