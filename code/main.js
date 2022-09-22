@@ -376,6 +376,14 @@ onKeyPress("space", () => {
 		player.play("jump")
 	}
 })
+	
+	onKeyPress("up", () => {
+	if (player.isGrounded()) {
+		player.jump(JUMP_FORCE)
+    player.biggify(4)
+		player.play("jump")
+	}
+})
 
 onKeyDown("left", () => {
 	player.move(-MOVE_SPEED, 0)
