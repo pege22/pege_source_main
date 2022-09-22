@@ -91,7 +91,7 @@ function addButton(txt, p, f) {
 
 }
 
-addButton("Start-Game", vec2(775, 200), () => go("game"))
+addButton("Join-Journey", vec2(775, 200), () => go("game"))
 
 
 onUpdate(() => cursor("default"))
@@ -562,7 +562,7 @@ scene("lose", () => {
 
 scene("win", () => {
 	add([
-		text("DEVOPS"),
+		text("NET MASK NT LUISNET V2"),
 	])
 	onKeyPress(() => go("game"))
 })
