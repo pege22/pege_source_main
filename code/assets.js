@@ -4,6 +4,8 @@ export default function loadAssets() {
 	loadSprite("grass", "sprites/grass2_Animation 1_0.png");
 	loadSprite("piedra", "sprites/piedra.png");
 	loadSprite("prize", "sprites/jumpy.png");
+  loadSprite("bg", "sprites/descarga.png");
+  loadSprite("menubg", "sprites/bg2.png");
 	loadSprite("apple", "sprites/apple.png"); //fix apple
 	loadSprite("portal", "sprites/portal.png");
 	loadSprite("npc", "sprites/p1fix.png");
