@@ -4,6 +4,8 @@ import loadAssets from "./assets"
 //CodedByLuis
 //CompetPanas
 //#LuisNet
+
+
 kaboom({ 
 debug: true,	
  scale: 1, //FixedScale
@@ -72,6 +74,11 @@ function addButton(txt, p, f) {
 		origin("center"),
 	])
 
+      add([
+    sprite("menubg", { width: width(), height: height() }),
+    z(-9999),
+    fixed()
+  ]);
 	btn.onClick(f)
 
 	btn.onUpdate(() => {
@@ -91,8 +98,11 @@ function addButton(txt, p, f) {
 
 }
 
-addButton("Join-Journey", vec2(775, 200), () => go("game"))
-
+addButton("Start-Game", vec2(775, 200), () => go("game"))
+add([
+  text("7D-Studios Presents:  \n Zailand", {
+    font: "apl386", 
+  })]),
 
 onUpdate(() => cursor("default"))
 
@@ -104,7 +114,17 @@ onUpdate(() => cursor("default"))
 
 
 
-
+loadSprite("portal", "sprites/portal.png", {
+  sliceX: 4,
+  anims: {
+    idle: {
+      from: 0,
+      to: 3,
+      loop: true,
+      speed: 10
+    },
+  }
+});
 
 const JUMP_FORCE = 1320
 const MOVE_SPEED = 300
@@ -290,7 +310,7 @@ const levelConf = {
 		"enemy",
 	],
 	"@": () => [
-		sprite("portal"),
+		sprite("portal", { anim: 'idle' }),
 		area({ scale: 0.5, }),
 		origin("bot"),
 		pos(0, -12),
@@ -338,6 +358,13 @@ scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
 	const level = addLevel(LEVELS[levelId ?? 0], levelConf)
 
 let myCheckpoint = vec2(177, 179)
+
+
+    add([
+    sprite("bg", { width: width(), height: height() }),
+    z(-9999),
+    fixed()
+  ]);
 const player = add([
 	sprite("dino"),
 	pos(88, 88),
@@ -426,7 +453,7 @@ onKeyRelease(["left", "right"], () => {
 
 	player.onCollide("portal", () => {
 		play("portal")
-		//location.href = "https://little-explorers-pege.herokuapp.com/cinematic"
+		location.href = "https://pegesourcemain-3.luiscraftyt3.repl.co/cinematic"
 		if (levelId + 1 < LEVELS.length) {
 			go("game", {
 				levelId: levelId + 1,
@@ -562,7 +589,7 @@ scene("lose", () => {
 
 scene("win", () => {
 	add([
-		text("NET MASK NT LUISNET V2"),
+		text("DEVOPS"),
 	])
 	onKeyPress(() => go("game"))
 })
