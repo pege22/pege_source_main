@@ -453,7 +453,7 @@ onKeyRelease(["left", "right"], () => {
 
 	player.onCollide("portal", () => {
 		play("portal")
-		location.href = "https://pegesourcemain-3.luiscraftyt3.repl.co/cinematic"
+		location.href = "https://luisweb.cf/pege/cinematic"
 		if (levelId + 1 < LEVELS.length) {
 			go("game", {
 				levelId: levelId + 1,
