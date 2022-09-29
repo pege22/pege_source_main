@@ -11,7 +11,7 @@ const db = new Database(); //Crear base de datos
 const helmet = require("helmet"); //helmet
 // Crear app express
  // Crear servidor HTTP
-const PORT = process.env.PORT || 3000; // Dejar puerto
+const PORT = process.env.PORT || 80; // Dejar puerto
 const http = require("http").createServer(app); //HHTP para el backend web
 var io = require('socket.io')(http)//Socket
 let err = null;
@@ -282,7 +282,7 @@ app.use(express.static(__dirname));
 
 // Express listen puerto
 http.listen(PORT, () => {
-  console.log('Socket encendido en el puerto *:3000');
+  console.log('Socket encendido en el puerto *:80 #LuisNet');
 });
 
 // Setear colores
