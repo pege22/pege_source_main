@@ -3,7 +3,7 @@ export default function loadAssets() {
 	loadSprite("spike", "sprites/spikes2_Animation 1_0.png");
 	loadSprite("grass", "sprites/grass2_Animation 1_0.png");
 	loadSprite("piedra", "sprites/piedra.png");
-  loadSprite("mafe", "sprites/Mafe.png.png");
+  loadSprite("mafe", "sprites/Mafe.png");
 	loadSprite("prize", "sprites/jumpy.png");
   	loadSprite("gem", "sprites/gem.png");
   loadSprite("bg", "sprites/descarga.png");
