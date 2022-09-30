@@ -139,7 +139,7 @@ const LEVELS = [
 		"p     $  =      $$       p",
 		"p    $   =     ====      p",
 		"p        =      <        p",
-		"p  m     = $$$$$$$$$$$  @p",
+		"p  m3    = $$$$$$$$$$$  @p",
 		"==========================",
 	],
 	[
@@ -424,6 +424,14 @@ const levelConf = {
 	
 		"m": () => [
 		sprite("mafe"),
+		area({width: 11, height: 16}),
+		solid(),
+    scale(2.1),
+		origin("bot"),
+	],
+
+  "3": () => [
+		sprite("mateo"),
 		area({width: 11, height: 16}),
 		solid(),
     scale(2.1),
