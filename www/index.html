@@ -51,7 +51,7 @@
 			
 				setTimeout(function() {
 					body.className = body.className.replace(/loading/, '');
-				}, 7000);
+				}, 6700);
 			};
 			removeLoading();
       </script>
@@ -69,7 +69,32 @@
         </h1>
       </div>
     </section>
-    
-
-  
+    </script>
+<script>
+ function login() {
+            var username = ["dev", "prod", "beta"];
+            var password = ["dev", "prod", "beta"];
+            var idInput = document.getElementById("id");
+            var pwInput = document.getElementById("pw");
+            if (username[0] == idInput) {
+                if (password[0] == pwInput) {
+                    alert("Authenticated - Luis-SecV12.2");
+                } else if (username[1] == idInput) {
+                    if (password[1] == pwInput) {
+                        alert("login success!");    
+                    } else if (username[2] == idInput) {
+                        if (password[2] == pwInput) {
+                            alert("login success!");                            
+                        } else { 
+                            alert("please try again"); 
+                        }
+                    } else { 
+                        alert ("please try again");
+                    } 
+                } else { 
+                    alert ("please try again");
+                }   
+            }
+        }
+</script>
 </body></html>

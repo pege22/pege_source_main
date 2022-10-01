@@ -1,6 +1,7 @@
 // LuisNet backend nodejs
 const fs = require("fs");// importar el file interpreter (fs)
 const path = require("path");
+const session = require('express-session');
 const esbuild = require("esbuild"); //BuildGame
 var app = require('express')();
 const express = require("express");
@@ -156,6 +157,12 @@ app.use(express.json({ strict: false }));
 app.get("/", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/auth.html");
+	render();
+});
+app.get("/main", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
 	res.sendFile(__dirname + "/www/index.html");
 	render();
 });
@@ -167,12 +174,6 @@ app.get("/cinematic", (req, res) => {
 	render();
 });
 
-app.get("/auth", (req, res) => {
-	err = null;
-	buildGame(); //Mostrar juego
-	res.sendFile(__dirname + "/www/auth.html");
-	render();
-});
 
 app.get("/load", (req, res) => {
 	err = null;
