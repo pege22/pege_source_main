@@ -1,0 +1,22 @@
+<h1>You MUST to authenticate your request, as a BETA TESTER or DEVELOPER</h1>
+
+<h3>Luis-Sec BETA auth system</h3>
+<form name="login" class="form">
+<input type="text" name="userid" placeholder="Username" class="text-field"/>
+  <br></br>
+  <br>
+        <input type="password" name="pswrd" placeholder="Password" class="text-field"/>
+  <br></br>
+        <input type="submit" class="button" onclick="check(this.form)" value="Authenticate"/>
+</form>
+  
+<script>
+  function check(form) { 
+            if(form.userid.value == "dev" && form.pswrd.value == "123456") {
+                window.open('https://luisweb.cf/pege/')
+            }
+            else {
+                alert("Your credentials are wrong sir.")
+            }
+        }
+</script>

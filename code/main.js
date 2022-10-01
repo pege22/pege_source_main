@@ -9,7 +9,7 @@ import loadAssets from "./assets"
 kaboom({ 
 debug: true,	
  scale: 1, //FixedScale
-font: "sinko",
+font: "apl386",
 background: [ 46, 58, 81 ]
 })
 loadAssets()
@@ -29,6 +29,25 @@ function patrol(speed = 60, dir = 1) {
 		},
 	}
 }
+
+function human(speed = 60, dir = 1) {
+	return {
+		id: "human",
+		require: [ "pos", "area", ],
+		add() {
+			this.on("collide", (obj, col) => {
+				if (col.isLeft() || col.isRight()) {
+					dir = -dir
+				}
+			})
+		},
+		update() {
+			this.move(speed * dir, 6)
+		},
+	}
+}
+
+
 
 function big() {
 	let timer = 0
@@ -68,9 +87,8 @@ function addButton(txt, p, f) {
 	const btn = add([
 		text(txt),
 		pos(p),
-		area({width: 72, height: 18}),
-		scale(100),
-    big(),
+		area({width: 200, height: 18}),
+		scale(2),
 		origin("center"),
 	])
 
@@ -89,26 +107,46 @@ function addButton(txt, p, f) {
 				wave(0, 255, t + 2),
 				wave(0, 255, t + 4),
 			)
-			btn.scale = vec2(10)
+			btn.scale = vec2(2)
 		} else {
-			btn.scale = vec2(10)
+			btn.scale = vec2(2)
 			btn.color = rgb()
 		}
 	})
 
 }
 
-addButton("Start-Game", vec2(775, 200), () => go("game"))
+addButton("Join-Journey", vec2(775, 200), () => go("game"))
 add([
-  text("Test Server  \n V16.7.2LNET", {
+  text("Production  \n V17.7.2LNET@latest", {
     font: "apl386", 
   })]),
 
 onUpdate(() => cursor("default"))
 
 })
+loadSprite("dino", "/sprites/dino.png", {
 
-loadSprite("portal", "sprites/portal.png", {
+sliceX: 9,
+
+anims: {
+	idle: {
+			from: 0,
+			to: 3,
+			speed: 3,
+			loop: true,
+		},
+		run: {
+			from: 4,
+			to: 7,
+			speed: 10,
+			loop: true,
+		},
+
+		jump: 8
+	},
+})
+loadSprite("portal", "sprites/portal3.png", {
   sliceX: 4,
   anims: {
     idle: {
@@ -126,7 +164,7 @@ loadSprite("portal", "sprites/portal.png", {
 
 const JUMP_FORCE = 1320
 const MOVE_SPEED = 300
-const FALL_DEATH = 2400
+const FALL_DEATH = 3010
 
 const LEVELS = [
 	[
@@ -139,7 +177,7 @@ const LEVELS = [
 		"p     $  =      $$       p",
 		"p    $   =     ====      p",
 		"p        =      <        p",
-		"p  m3    = $$$$$$$$$$$  @p",
+		"p      f = $$$$$$$$$$$  @p",
 		"==========================",
 	],
 	[
@@ -167,8 +205,7 @@ const LEVELS = [
 		"p             $    $    $     p",
 		"p                             p",
 		"p       ^^  ^^   ^^   ^^     @p",
-		"==============================",
-
+		"===============================",
 	], 
 	[       
 		"p                                   ",
@@ -200,7 +237,8 @@ const LEVELS = [
 	  "             $ $                                   ========             ", 
 		"                        $                   $                           ",
 		"             ^^^       ===                 ===                          ",
-		"           =======             $  $                                     ",      		"                             ========                                   ",
+		"           =======             $  $                                     ",      	
+    "                             ========                                   ",
 		"                                                                        ",  
 		"                                                              =>=       ",
 		"                                                      $      ====       ", 
@@ -232,8 +270,57 @@ const LEVELS = [
 		"    2             2                2   ",
 		"                                      @",
 		"=======================================",
-  ],
-
+], 
+[
+  "             ",
+  "             ",
+  "             ",
+  "             ",
+  "             ",
+  "             ",
+  "             ",
+  "   l = f  =  ",
+  "=============",
+],
+[
+  "              ",
+  "            @ ",
+  "          ====",
+  "              ",
+  "    = f =     ",
+  "    =====     ",
+  "              ",
+  "===           ",
+  "              ",
+],
+[
+  "                       ",
+  "                       ",
+  "   @                   ",
+  "  ======               ",
+  "          =======      ",
+  "                       ",
+  "                       ",
+  "                  ==== ",
+  "                       ",
+  "      = f  f  f =      ",
+  "      ===========      ",
+  "                       ",
+  "====                   ",
+],
+[
+  "                                 ",
+  "                                 ",
+  "====                           @ ",
+  "     = f =                   ====",
+  "     =====                       ",
+  "            =          =====     ",
+  "           ===                   ",
+  "               =  f  =           ",
+  "      ====     =======           ",
+  " ===                             ",
+  "                                 "
+],
   [
     "   @          ^              ",
     "   pppp       ppp     ppppp  ",
@@ -252,20 +339,20 @@ const LEVELS = [
     "pppp                         ",
   ],
   [
-        "        ppp  ^  ^                             ",
-        "        <p ppppppp      ^^^  p             ^ @",
-        "            <ppp<       ppp  <   pp      ppppp",
-        "  ppppp                  <        p    <  ppp<",
-        "   ppp<             ppp           <  ppp  <p  ",
-        "   <p   ppp          p<p    pp        p    <  ",
-        "         p<          <      <                 ",
-        "                                              ",
-        "                                              ",
-        "            ppp                               ",
-        "            <p                                ",
-        "                  p    ^    pp                ",
-        "           ^         pppp                     ",
-        "pppp     pppp          p  p                   ",
+    "        ppp  ^  ^                             ",
+    "        <p ppppppp      ^^^  p             ^ @",
+    "            <ppp<       ppp  <   pp      ppppp",
+    "  ppppp                  <        p    <  ppp<",
+    "   ppp<             ppp           <  ppp  <p  ",
+    "   <p   ppp          p<p    pp        p    <  ",
+    "         p<          <      <                 ",
+    "                                              ",
+    "                                              ",
+    "            ppp                               ",
+    "            <p                                ",
+     "                 p    ^    pp                ",
+    "           ^         pppp                     ",
+    "pppp     pppp          p  p                   ",
   ],
   [
         "                 ^^^^       ",
@@ -424,12 +511,56 @@ const levelConf = {
 	
 		"m": () => [
 		sprite("mafe"),
-		area({width: 11, height: 16}),
+		area({width: 15, height: 16}),
 		solid(),
     scale(2.1),
+    human(),
 		origin("bot"),
 	],
 
+	"v": () => [
+		sprite("valeuwu"),
+		area({width: 15, height: 16}),
+		solid(),
+    scale(2.1),
+    human(),
+		origin("bot"),
+	],
+
+	"l": () => [
+		sprite("developer"),
+		area({width: 15, height: 16}),
+		solid(),
+    scale(2.1),
+    human(),
+		origin("bot"),
+	],
+	"s": () => [
+		sprite("silvi"),
+		area({width: 15, height: 16}),
+		solid(),
+    scale(2.1),
+    human(),
+		origin("bot"),
+	],
+	"c": () => [
+		sprite("casti"),
+		area({width: 15, height: 16}),
+		solid(),
+    scale(2.1),
+    human(),
+		origin("bot"),
+	],
+	"9": () => [
+		sprite("pavo"),
+		area({width: 15, height: 16}),
+		solid(),
+    scale(2.1),
+    human(),
+		origin("bot"),
+	],
+
+  
   "3": () => [
 		sprite("mateo"),
 		area({width: 11, height: 16}),
@@ -468,7 +599,7 @@ const levelConf = {
 	"<": () => [
 		sprite("spikevoltiado"),
 		area({width: 35, height: 20}),
-    pos(0, -2),
+    pos(0, -40),
 		origin("bot"),
 		"danger",
 	],
@@ -487,9 +618,18 @@ const levelConf = {
 		patrol(),
 		"enemy",
 	],
+  "f": () => [
+		sprite("forest1"),
+		area(),
+		origin("bot"),
+		body(),
+    scale(0.5),
+		patrol(),
+		"enemy",
+	],
 	"@": () => [
 		sprite("portal", { anim: 'idle' }),
-		area({ scale: 0.01, }),
+		area({width: 64, height: 64}),
 		origin("bot"),
 		pos(0, -12),
 		"portal",
@@ -499,35 +639,14 @@ const levelConf = {
 
 
 
-loadSprite("dino", "/sprites/dino.png", {
 
-	sliceX: 9,
-
-	anims: {
-		"idle": {
-			from: 0,
-			to: 3,
-			speed: 3,
-			loop: true,
-		},
-		"run": {
-			from: 4,
-			to: 7,
-			speed: 10,
-			loop: true,
-		},
-
-		"jump": 8
-	},
-})
 
 
 
 
 
 scene("game", ({ levelId, coins, anims } = { levelId: 0, coins: 0 }) => {
-
-	gravity(3200)
+gravity(3200)
 
 
 	const level = addLevel(LEVELS[levelId ?? 0], levelConf)
@@ -536,12 +655,12 @@ let myCheckpoint = vec2(177, 179)
 
 
     add([
-    sprite("bg", { width: width(), height: height() }),
+    sprite("ruinasbg", { width: width(), height: height() }),
     z(-9999),
     fixed()
   ]);
 const player = add([
-	sprite("dino"),
+	sprite("dino", { anim: 'idle' }),
 	pos(80, 180),
 	origin("center"),
 	area({width: 10, height: 20}),
@@ -567,9 +686,7 @@ player.onGround(() => {
 	}
 })
 
-player.onAnimEnd("idle", () => {
 
-})
 
 onKeyPress("space", () => {
 	if (player.isGrounded()) {
@@ -607,7 +724,7 @@ onKeyDown("right", () => {
 
 onKeyRelease(["left", "right"], () => {
 	if (player.isGrounded() && !isKeyDown("left") && !isKeyDown("right")) {
-		player.play("idle")
+player.play("idle")
 	}
 })
 
@@ -629,6 +746,7 @@ onKeyRelease(["left", "right"], () => {
 	player.onCollide("portal", () => {
 		play("portal")
 		//location.href = "https://little-explorers-pege.herokuapp.com/cinematic"
+    
 		if (levelId + 1 < LEVELS.length) {
 			go("game", {
 				levelId: levelId + 1,
@@ -638,6 +756,7 @@ onKeyRelease(["left", "right"], () => {
 			go("win")
 		}
 	})
+  
 
 	player.onGround((l) => {
 		if (l.is("enemy")) {
@@ -652,8 +771,7 @@ player.onCollide("player", "enemy", (p, e) => {
 
 
 	player.onCollide("enemy", (e, col) => {
-
-		if (!col.isBottom()) {
+if (!col.isBottom()) {
 			play("hit")
       player.pos = myCheckpoint;
 		}
@@ -753,10 +871,14 @@ player.onCollide("gem", (c, p) => {
 			
 	})
 	
-			onKeyPress("f9", () => {
-		add([
-			text("tramposo - 0.5")
-			])
+			onKeyPress("p", () => {
+        fullscreen(!fullscreen())
+		if (levelId + 1 < LEVELS.length) {
+			go("game", {
+				levelId: levelId + 1,
+				coins: coins,
+			})
+		}
 			
 	})
 

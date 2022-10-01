@@ -1,0 +1,22 @@
+{
+    "name": "Zailand-DEV",
+    "short_name": "Zailand",
+    "start_url": "/",
+    "scope": ".",
+    "display": "fullscreen",
+    "icons": [
+      {
+        "src": "sprites/pero.gif",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "sprites/pero.gif",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "theme_color": "#00FF00",
+    "background_color": "#00FF00",
+    "orientation": "landscape"
+  }

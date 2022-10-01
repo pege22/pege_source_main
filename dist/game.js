@@ -121,11 +121,11 @@
   }
   __name(Xt, "Xt");
   a(Xt, "rad2deg");
-  function z(i, t, l) {
-    return t > l ? z(i, l, t) : Math.min(Math.max(i, t), l);
+  function z2(i, t, l) {
+    return t > l ? z2(i, l, t) : Math.min(Math.max(i, t), l);
   }
-  __name(z, "z");
-  a(z, "clamp");
+  __name(z2, "z");
+  a(z2, "clamp");
   function Ve(i, t, l) {
     return i + (t - i) * l;
   }
@@ -137,7 +137,7 @@
   __name(dt2, "dt");
   a(dt2, "map");
   function dr(i, t, l, w, U) {
-    return z(dt2(i, t, l, w, U), w, U);
+    return z2(dt2(i, t, l, w, U), w, U);
   }
   __name(dr, "dr");
   a(dr, "mapc");
@@ -233,7 +233,7 @@
       b(this, "r", 255);
       b(this, "g", 255);
       b(this, "b", 255);
-      this.r = z(t, 0, 255), this.g = z(l, 0, 255), this.b = z(w, 0, 255);
+      this.r = z2(t, 0, 255), this.g = z2(l, 0, 255), this.b = z2(w, 0, 255);
     }
     static fromArray(t) {
       return new ue(t[0], t[1], t[2]);
@@ -1072,7 +1072,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     __name(_r, "_r");
     a(_r, "loadBean");
     function Br(e) {
-      return e !== void 0 && (w.masterNode.gain.value = z(e, Or, Ir)), w.masterNode.gain.value;
+      return e !== void 0 && (w.masterNode.gain.value = z2(e, Or, Ir)), w.masterNode.gain.value;
     }
     __name(Br, "Br");
     a(Br, "volume");
@@ -1115,11 +1115,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       }, stopped() {
         return B("stopped()", "isStopped()"), this.isStopped();
       }, speed(y) {
-        return y !== void 0 && (c.playbackRate.value = z(y, ds, fs)), c.playbackRate.value;
+        return y !== void 0 && (c.playbackRate.value = z2(y, ds, fs)), c.playbackRate.value;
       }, detune(y) {
-        return c.detune ? (y !== void 0 && (c.detune.value = z(y, ps, ms)), c.detune.value) : 0;
+        return c.detune ? (y !== void 0 && (c.detune.value = z2(y, ps, ms)), c.detune.value) : 0;
       }, volume(y) {
-        return y !== void 0 && (s.gain.value = z(y, Or, Ir)), s.gain.value;
+        return y !== void 0 && (s.gain.value = z2(y, Or, Ir)), s.gain.value;
       }, loop() {
         c.loop = true;
       }, unloop() {
@@ -1440,7 +1440,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     }
     __name(mn, "mn");
     a(mn, "applyCharTransform");
-    let wn = /\[(?<text>[^\]]*)\]\.(?<style>[\w\.]+)+/g;
+    let wn = new RegExp("\\[(?<text>[^\\]]*)\\]\\.(?<style>[\\w\\.]+)+", "g");
     function $r(e) {
       let n = {}, r = e.replace(wn, "$1"), u = 0;
       for (let c of e.matchAll(wn)) {
@@ -2024,9 +2024,9 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       }), H("f8", () => {
         C.paused = !C.paused;
       }), H("f7", () => {
-        C.timeScale = ge(z(C.timeScale - 0.2, 0, 2), 1);
+        C.timeScale = ge(z2(C.timeScale - 0.2, 0, 2), 1);
       }), H("f9", () => {
-        C.timeScale = ge(z(C.timeScale + 0.2, 0, 2), 1);
+        C.timeScale = ge(z2(C.timeScale + 0.2, 0, 2), 1);
       }), H("f10", () => {
         C.stepFrame();
       }), H("f5", () => {
@@ -2914,15 +2914,28 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
 
   // code/assets.js
   function loadAssets() {
-    loadSprite("ghosty", "sprites/ghosty.png");
-    loadSprite("spike", "sprites/spike.png");
-    loadSprite("grass", "sprites/grass.png");
+    loadSprite("ghosty", "sprites/GHOSTY_ENEMIES_0.png");
+    loadSprite("forest1", "sprites/Mosscreep.png");
+    loadSprite("ruinasbg", "sprites/ruinasbg.png");
+    loadSprite("spike", "sprites/spikes2_Animation 1_0.png");
+    loadSprite("grass", "sprites/grass2_Animation 1_0.png");
+    loadSprite("piedra", "sprites/piedra.png");
+    loadSprite("mafe", "sprites/Mafe.png.png");
+    loadSprite("mateo", "sprites/Personajes_Mateo.png");
+    loadSprite("developer", "sprites/Personajes_Luis.png");
+    loadSprite("casti", "sprites/Personajes_Casti.png");
+    loadSprite("pavo", "sprites/Personajes_Pavo.png");
+    loadSprite("silvi", "sprites/Personajes_Silvi.png");
+    loadSprite("valeuwu", "sprites/Personajes_ValeQ.png");
+    loadSprite("july", "sprites/Personajes_July.png");
     loadSprite("prize", "sprites/jumpy.png");
+    loadSprite("gem", "sprites/gem.png");
+    loadSprite("bg", "sprites/descarga.png");
+    loadSprite("menubg", "sprites/bg2.png");
     loadSprite("apple", "sprites/apple.png");
-    loadSprite("portal", "sprites/portal.png");
-    loadSprite("npc", "sprites/p1fix.png");
-    loadSprite("coin", "sprites/moneda 3_Coin_0.png");
-    loadSprite("dino", "/sprites/dino.png");
+    loadSprite("portal", "sprites/portal3.png");
+    loadSprite("coin", "sprites/moneda 4_MONEDA_0.png");
+    loadSprite("spikevoltiado", "sprites/spikes turned_Animation 1_0.png");
     loadSound("coin", "sounds/score.mp3");
     loadSound("powerup", "sounds/powerup.mp3");
     loadSound("blip", "sounds/blip.mp3");
@@ -2933,9 +2946,10 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
 
   // code/main.js
   no({
+    debug: true,
     scale: 1,
-    font: "sinko",
-    background: [0, 0, 0]
+    font: "apl386",
+    background: [46, 58, 81]
   });
   loadAssets();
   function patrol(speed = 60, dir = 1) {
@@ -2955,6 +2969,23 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     };
   }
   __name(patrol, "patrol");
+  function human(speed = 60, dir = 1) {
+    return {
+      id: "human",
+      require: ["pos", "area"],
+      add() {
+        this.on("collide", (obj, col) => {
+          if (col.isLeft() || col.isRight()) {
+            dir = -dir;
+          }
+        });
+      },
+      update() {
+        this.move(speed * dir, 6);
+      }
+    };
+  }
+  __name(human, "human");
   function big() {
     let timer = 0;
     let isBig = false;
@@ -2979,95 +3010,408 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         timer = 0;
         isBig = false;
       },
-      biggify(time) {
+      biggify(time2) {
         destScale = 2;
-        timer = time;
+        timer = time2;
         isBig = true;
       }
     };
   }
   __name(big, "big");
+  scene("menu", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+    function addButton(txt, p, f2) {
+      const btn = add([
+        text(txt),
+        pos(p),
+        area({ width: 200, height: 18 }),
+        scale(2),
+        origin("center")
+      ]);
+      add([
+        sprite("menubg", { width: width(), height: height() }),
+        z(-9999),
+        fixed()
+      ]);
+      btn.onClick(f2);
+      btn.onUpdate(() => {
+        if (btn.isHovering()) {
+          const t = time() * 20;
+          btn.color = rgb(
+            wave(0, 255, t),
+            wave(0, 255, t + 2),
+            wave(0, 255, t + 4)
+          );
+          btn.scale = vec2(2);
+        } else {
+          btn.scale = vec2(2);
+          btn.color = rgb();
+        }
+      });
+    }
+    __name(addButton, "addButton");
+    addButton("Join-Journey", vec2(775, 200), () => go("game"));
+    add([
+      text("Production  \n V17.7.2LNET@latest", {
+        font: "apl386"
+      })
+    ]), onUpdate(() => cursor("default"));
+  });
   loadSprite("dino", "/sprites/dino.png", {
     sliceX: 9,
     anims: {
-      "idle": {
+      idle: {
         from: 0,
         to: 3,
-        speed: 2,
+        speed: 3,
         loop: true
       },
-      "run": {
+      run: {
         from: 4,
         to: 7,
         speed: 10,
         loop: true
       },
-      "jump": 8
+      jump: 8
+    }
+  });
+  loadSprite("portal", "sprites/portal3.png", {
+    sliceX: 4,
+    anims: {
+      idle: {
+        from: 0,
+        to: 3,
+        loop: true,
+        speed: 10
+      }
     }
   });
   var JUMP_FORCE = 1320;
   var MOVE_SPEED = 300;
-  var FALL_DEATH = 2400;
+  var FALL_DEATH = 3010;
   var LEVELS = [
     [
-      "=                         =",
-      "=                         =",
-      "=                         =",
-      "=                         =",
-      "=                         =",
-      "=       $ $               =",
-      "=      $  =      $$       =",
-      "=     $   =     ====      =",
-      "=  >      =           a   =",
-      "=         = $$$$$$$$$$$  @=",
-      "==========================="
+      "p                        p",
+      "p                        p",
+      "p                        p",
+      "p                        p",
+      "p                        p",
+      "p      $ $               p",
+      "p     $  =      $$       p",
+      "p    $   =     ====      p",
+      "p        =      <        p",
+      "p      f = $$$$$$$$$$$  @p",
+      "=========================="
     ],
     [
-      "=                                =",
-      "=                        $       =",
-      "=                       ===      =",
-      "=                 $              =",
-      "=                ===    $        =",
-      "=                      ===       =",
-      "=            $              $    =",
-      "=           ===     $      ===   =",
-      "=      $           ===           =",
-      "=     ===                      @ =",
+      "p                        $       p",
+      "p                       ===      p",
+      "p                                p",
+      "p                 $              p",
+      "p                ===    $        p",
+      "p                      ===       p",
+      "p            $              $    p",
+      "p           ===     $      ===   p",
+      "p      $           ===           p",
+      "p     ===                      @ p",
       "=====                        ====="
     ],
     [
-      "=                             =",
-      "=                             =",
-      "=                             =",
-      "=                             =",
-      "=                             =",
-      "=                             =",
-      "=   $  =         $   $        =",
-      "=   $  =       $   $   $      =",
-      "=   $  =                      =",
-      "=   $  =                      =",
-      "=   >  =     =>^^^>^^^>^^^ @  =",
+      "p                             p",
+      "p                             p",
+      "p                             p",
+      "p                             p",
+      "p                             p",
+      "p                             p",
+      "p                             p",
+      "p           $$   $$   $$      p",
+      "p             $    $    $     p",
+      "p                             p",
+      "p       ^^  ^^   ^^   ^^     @p",
       "==============================="
     ],
     [
-      "=                                                             ",
-      "=                   $ $ $ $ $ $            $                  ",
-      "=                  $   $   $   $          ===                 ",
-      "=                                     $                   @   ",
-      "=                                    ===          $     ====  ",
-      "=                 =>^^^>^^^>^^^>                 ===          ",
-      "=      &     ===================                              ",
-      "=     ===                                                     ",
-      "=                                                             ",
-      "=         $                                                   ",
-      "=        ===     $                                            ",
-      "=               ===                                           ",
-      "=                    $                                        ",
-      "=              $    ===                                       ",
-      "=        $    ===                                             ",
-      "=       ===                                                   ",
-      "=                                                             ",
-      "=====                                                         "
+      "p                                   ",
+      "p                                   ",
+      "p                                   ",
+      "p                                   ",
+      "p                               @   ",
+      "p                             ====  ",
+      "p    $  =             =>=           ",
+      "p    $  =            ====           ",
+      "p    $  =                           ",
+      "p    $  =                           ",
+      "p    >  =     =>=                   ",
+      "=================                   "
+    ],
+    [
+      "                                                                        ",
+      "                    $ $ $ $ $ $               $                         ",
+      "                   $   $   $   $             ===                        ",
+      "                                        $                    @          ",
+      "                                       ===           $     ====         ",
+      "                  =>^^^>^^^>^^^                     ===                 ",
+      "               ===================                                      ",
+      "                                                                        ",
+      "                                                                        ",
+      "       =>=                                                              ",
+      "       ====   $                                     $$$$$$              ",
+      "             $ $                                   ========             ",
+      "                        $                   $                           ",
+      "             ^^^       ===                 ===                          ",
+      "           =======             $  $                                     ",
+      "                             ========                                   ",
+      "                                                                        ",
+      "                                                              =>=       ",
+      "                                                      $      ====       ",
+      "                                                                        ",
+      "                                                      ^                 ",
+      "                                             $      =====               ",
+      "                                                                        ",
+      "                         $    $    $         ^                          ",
+      "                                           =====                        ",
+      "                                                                        ",
+      "                        ^^^  ^^^  ^^^                                   ",
+      "==============      ===================                                 "
+    ],
+    [
+      "p                                      ",
+      "p   ===========                        ",
+      "p                                      ",
+      "p                                      ",
+      "p                                      ",
+      "p          ===============             ",
+      "p                                      ",
+      "p                                      ",
+      "p                                      ",
+      "p                                      ",
+      "p                       =======        ",
+      "p      =======                         ",
+      "p                                      ",
+      "p                                      ",
+      "    2             2                2   ",
+      "                                      @",
+      "======================================="
+    ],
+    [
+      "             ",
+      "             ",
+      "             ",
+      "             ",
+      "             ",
+      "             ",
+      "             ",
+      "   l = f  =  ",
+      "============="
+    ],
+    [
+      "              ",
+      "            @ ",
+      "          ====",
+      "              ",
+      "    = f =     ",
+      "    =====     ",
+      "              ",
+      "===           ",
+      "              "
+    ],
+    [
+      "                       ",
+      "                       ",
+      "   @                   ",
+      "  ======               ",
+      "          =======      ",
+      "                       ",
+      "                       ",
+      "                  ==== ",
+      "                       ",
+      "      = f  f  f =      ",
+      "      ===========      ",
+      "                       ",
+      "====                   "
+    ],
+    [
+      "                                 ",
+      "                                 ",
+      "====                           @ ",
+      "     = f =                   ====",
+      "     =====                       ",
+      "            =          =====     ",
+      "           ===                   ",
+      "               =  f  =           ",
+      "      ====     =======           ",
+      " ===                             ",
+      "                                 "
+    ],
+    [
+      "   @          ^              ",
+      "   pppp       ppp     ppppp  ",
+      "       pppp   <p<     <ppp   ",
+      "                        p<   ",
+      "                            p",
+      "                            <",
+      "         ^                   ",
+      "       ppp           ^^      ",
+      "        p    ^     pppp    p ",
+      "        <  ppppp    pp<    < ",
+      "      ^    <ppp<    <p       ",
+      "    ppp     <p          pp   ",
+      "     p<                  p   ",
+      "     <                   <   ",
+      "pppp                         "
+    ],
+    [
+      "        ppp  ^  ^                             ",
+      "        <p ppppppp      ^^^  p             ^ @",
+      "            <ppp<       ppp  <   pp      ppppp",
+      "  ppppp                  <        p    <  ppp<",
+      "   ppp<             ppp           <  ppp  <p  ",
+      "   <p   ppp          p<p    pp        p    <  ",
+      "         p<          <      <                 ",
+      "                                              ",
+      "                                              ",
+      "            ppp                               ",
+      "            <p                                ",
+      "                 p    ^    pp                ",
+      "           ^         pppp                     ",
+      "pppp     pppp          p  p                   "
+    ],
+    [
+      "                 ^^^^       ",
+      "                 pppp       ",
+      "                            ",
+      "        ppp            @    ",
+      "        <p<     p^^^^ppp    ",
+      "      ^^ <  ppp  pppp       ",
+      "   ppppp                    ",
+      "                            ",
+      " ppp   pp                   ",
+      "       <p                   ",
+      "                 pppppppp   ",
+      "            ^    p pppp p   ",
+      "         ppppp    pppppp    ",
+      "         <ppp               ",
+      "          <p<    pp^^^^pp   ",
+      "           <  pp   pppp     ",
+      "               <            ",
+      "                          pp",
+      "                            ",
+      "    ^^^^^^                  ",
+      "    pppppp    ppp ^^  ^^    ",
+      "      <<      <p<ppppppppp  ",
+      "           ^   <            ",
+      "ppppp    ppppp              "
+    ],
+    [
+      "         @               ^         ",
+      "         p               p         ",
+      "         p              ^p^        ",
+      "        ppp             ppp        ",
+      "        ppp             ppp        ",
+      "       ppppp      p  pppppppp  pp  ",
+      "        ppp       p      p      p  ",
+      "         <        p     ^p^    ^p  ",
+      "                  ppp  pppp   ppp  ",
+      "                                   ",
+      "                                ^  ",
+      "       ^  ^       ppppp  pppppppp  ",
+      "     ppppppppp                  p  ",
+      "                              ^^p  ",
+      "   ppppp    pp    ppppppp    ppppp ",
+      "    ppp                  p  p    p ",
+      "     <                           p ",
+      "                                 p ",
+      "  p               p              p ",
+      "                  pppppppppppppppp ",
+      "                      p<   <   <   ",
+      "   ^              ppppp            ",
+      "   ppp                             ",
+      "   pp                              ",
+      "                                   ",
+      "                                   ",
+      "      ppp      pppppppppp    p    p",
+      "      <p<                          ",
+      "              ^^^^^^^^^^^^^^^^^^^^^",
+      "ppppp     ppppppppppppppppppppppppp"
+    ],
+    [
+      "                                                    ppp     ",
+      "                                            ^      ^      ^ ",
+      "                               p   p        p    ppp    ppp ",
+      "          ^                          p     p      p         ",
+      "        ppp            ^ ^  p         ppppp  ppp            ",
+      "         p             p p              p     p             ",
+      "            p      p   < <                                 @",
+      "            <      <                                      ^ ",
+      "  p                   p^^^p                              ppp",
+      "                      <ppp<     p      p             ^      ",
+      "          ^ ^                   <      <            ppp     ",
+      "        ppppp           ppppppp           ^^  ^^            ",
+      "         ppp< ^ ^^^pp                    ppppppppp          ",
+      "          p   ppppp   ppp    ppp                            ",
+      "ppp       <    ppp<                                         "
+    ],
+    [
+      "          p  ^       ",
+      "  pp^pp   pppp       ",
+      "   ppp    ppp        ",
+      "    p     pp         ",
+      "        ppp   pp     ",
+      "         ppp p       ",
+      "     ^    pp p ^^^^^^",
+      "   ppppp  pp p pppppp",
+      "   p p p  pp p  <pp< ",
+      "  ppp pp  p          ",
+      "          p^         ",
+      "          ppp        ",
+      " p        p  p       ",
+      "          p   p^^^p  ",
+      "  ^^      p    ppp   ",
+      " pppppp   p    <<<   ",
+      " ppppp    p          ",
+      " ppp     ^p ppp   ppp",
+      " pp     ppp pp     p ",
+      " p       pp p        ",
+      "        ^ p p        ",
+      "      ppp p p        ",
+      "       p  p p        ",
+      "     ^    p p        ",
+      "   ppp    p p        ",
+      "          p p        ",
+      " ^        p p        ",
+      " ppp      p p        ",
+      "  p       p p   ppp  ",
+      "          p      p   ",
+      "     ppp  p      p   ",
+      "          p    p p   ",
+      "          p    p p   ",
+      "  pp      p    p p   ",
+      "   p     ^p  ppp p   ",
+      "  ppp  pppp  p p p   ",
+      "          p ^p p^p^@^",
+      "ppppppppppppppppppppp"
+    ],
+    [
+      " pppp ppp ppp p  ppp p  p pp  ",
+      "   p  p p  p  p  p p pp p p p ",
+      "  p   ppp  p  p  ppp p pp p p ",
+      " pppp p p ppp pp p p p  p pp  ",
+      "                         ^    ",
+      "                         p  pp",
+      "  pp^^  ^              p p    ",
+      "    pppppppppppppppppppp p^   ",
+      "                       p ppp  ",
+      " p                     p pp   ",
+      "            ppp        p p   ^",
+      "     pppp    p         p p  pp",
+      "         p    ^        p p  <p",
+      "              pp       p p^   ",
+      "                       p ppp  ",
+      "     ^            ^    p      ",
+      "   ppp           pp    p     ^",
+      "    p                  p    pp",
+      "    <                  p      ",
+      "ppp   pp      pp       p ^    ",
+      "                       ppppppp"
     ]
   ];
   var levelConf = {
@@ -3079,12 +3423,80 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       solid(),
       origin("bot")
     ],
+    "p": () => [
+      sprite("piedra"),
+      area(),
+      solid(),
+      origin("bot")
+    ],
+    "m": () => [
+      sprite("mafe"),
+      area({ width: 15, height: 16 }),
+      solid(),
+      scale(2.1),
+      human(),
+      origin("bot")
+    ],
+    "v": () => [
+      sprite("valeuwu"),
+      area({ width: 15, height: 16 }),
+      solid(),
+      scale(2.1),
+      human(),
+      origin("bot")
+    ],
+    "l": () => [
+      sprite("developer"),
+      area({ width: 15, height: 16 }),
+      solid(),
+      scale(2.1),
+      human(),
+      origin("bot")
+    ],
+    "s": () => [
+      sprite("silvi"),
+      area({ width: 15, height: 16 }),
+      solid(),
+      scale(2.1),
+      human(),
+      origin("bot")
+    ],
+    "c": () => [
+      sprite("casti"),
+      area({ width: 15, height: 16 }),
+      solid(),
+      scale(2.1),
+      human(),
+      origin("bot")
+    ],
+    "9": () => [
+      sprite("pavo"),
+      area({ width: 15, height: 16 }),
+      solid(),
+      scale(2.1),
+      human(),
+      origin("bot")
+    ],
+    "3": () => [
+      sprite("mateo"),
+      area({ width: 11, height: 16 }),
+      solid(),
+      scale(2.1),
+      origin("bot")
+    ],
     "$": () => [
       sprite("coin"),
       area(),
       pos(0, -9),
       origin("bot"),
       "coin"
+    ],
+    "2": () => [
+      sprite("gem"),
+      area(),
+      pos(0, -9),
+      origin("bot"),
+      "gem"
     ],
     "%": () => [
       sprite("prize"),
@@ -3097,6 +3509,13 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       sprite("spike"),
       area(),
       solid(),
+      origin("bot"),
+      "danger"
+    ],
+    "<": () => [
+      sprite("spikevoltiado"),
+      area({ width: 35, height: 20 }),
+      pos(0, -40),
       origin("bot"),
       "danger"
     ],
@@ -3115,23 +3534,37 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       patrol(),
       "enemy"
     ],
+    "f": () => [
+      sprite("forest1"),
+      area(),
+      origin("bot"),
+      body(),
+      scale(0.5),
+      patrol(),
+      "enemy"
+    ],
     "@": () => [
-      sprite("portal"),
-      area({ scale: 0.5 }),
+      sprite("portal", { anim: "idle" }),
+      area({ width: 64, height: 64 }),
       origin("bot"),
       pos(0, -12),
       "portal"
     ]
   };
-  scene("game", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+  scene("game", ({ levelId, coins, anims } = { levelId: 0, coins: 0 }) => {
     gravity(3200);
     const level = addLevel(LEVELS[levelId != null ? levelId : 0], levelConf);
     let myCheckpoint2 = vec2(177, 179);
+    add([
+      sprite("ruinasbg", { width: width(), height: height() }),
+      z(-9999),
+      fixed()
+    ]);
     const player2 = add([
-      sprite("dino"),
-      pos(88, 88),
+      sprite("dino", { anim: "idle" }),
+      pos(80, 180),
       origin("center"),
-      area(),
+      area({ width: 10, height: 20 }),
       body(),
       scale(22),
       big(),
@@ -3139,7 +3572,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     ]);
     player2.onUpdate(() => {
       if (player2.pos.x > 210) {
-        myCheckpoint2 = vec2(210, 80);
+        myCheckpoint2 = vec2(210, 580);
       }
     });
     player2.onGround(() => {
@@ -3149,12 +3582,17 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         player2.play("run");
       }
     });
-    player2.onAnimEnd("idle", () => {
-    });
     onKeyPress("space", () => {
       if (player2.isGrounded()) {
         player2.jump(JUMP_FORCE);
         player2.biggify(3);
+        player2.play("jump");
+      }
+    });
+    onKeyPress("up", () => {
+      if (player2.isGrounded()) {
+        player2.jump(JUMP_FORCE);
+        player2.biggify(4);
         player2.play("jump");
       }
     });
@@ -3246,6 +3684,12 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       coins += 1;
       coinsLabel.text = coins;
     });
+    player2.onCollide("gem", (c, p) => {
+      player2.move(500);
+      destroy(c, p);
+      play("coin");
+      player2.jump(JUMP_FORCE * 7.7);
+    });
     const coinsLabel = add([
       text(coins),
       pos(24, 24),
@@ -3270,15 +3714,28 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     });
     onKeyRelease("down", () => {
       player2.weight = 1;
-      player2.pos = myCheckpoint2;
     });
     onKeyPress("f", () => {
       fullscreen(!fullscreen());
     });
+    onKeyPress("f8", () => {
+      add([
+        text("tramposo - 0.5")
+      ]);
+    });
+    onKeyPress("p", () => {
+      fullscreen(!fullscreen());
+      if (levelId + 1 < LEVELS.length) {
+        go("game", {
+          levelId: levelId + 1,
+          coins
+        });
+      }
+    });
   });
   scene("lose", () => {
     add([
-      text("CHECKPOINT TEST")
+      text("NOT USED, HOWEVER DEVELOPERS KNOW WHAT THEY DO ;)")
     ]);
     onKeyRelease(() => {
       player.pos = myCheckpoint;
@@ -3290,6 +3747,6 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     ]);
     onKeyPress(() => go("game"));
   });
-  go("game");
+  go("menu");
 })();
 //# sourceMappingURL=game.js.map
