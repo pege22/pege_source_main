@@ -89,7 +89,7 @@ io.on('connection', (socket) => {
 //Emitir state cada 1 minuo
 setInterval(() => {
   io.sockets.emit('state', gameState);
-}, 1000 / 60);
+}, 9000 / 60);
 // Construir juego de cliente + setear la función BuildGame()
 function buildGame() {
 
@@ -164,6 +164,13 @@ app.get("/main", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
 	res.sendFile(__dirname + "/www/index.html");
+	render();
+});
+
+app.get("/prueba", (req, res) => {
+	err = null;
+	buildGame(); //Mostrar juego
+	res.sendFile(__dirname + "/www/rick.html");
 	render();
 });
 

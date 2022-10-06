@@ -47,7 +47,39 @@ function human(speed = 60, dir = 1) {
 	}
 }
 
+function block(speed = 200, dir = 1) {
+	return {
+		id: "block",
+		require: [ "pos", "area", ],
+		add() {
+			this.on("collide", (obj, col) => {
+				if (col.isLeft() || col.isRight()) {
+					dir = -dir
+				}
+			})
+		},
+		update() {
+			this.move(speed * dir, 0)
+		},
+	}
+}
 
+function bloc(speed = 200, dir = 1) {
+	return {
+		id: "block",
+		require: [ "pos", "area", ],
+		add() {
+			this.on("collide", (obj, col) => {
+				if (col.isUp() || col.isDown()) {
+					dir = -dir
+				}
+			})
+		},
+		update() {
+			this.move(speed * dir, 0)
+		},
+	}
+}
 
 function big() {
 	let timer = 0
@@ -125,6 +157,74 @@ add([
 onUpdate(() => cursor("default"))
 
 })
+
+
+scene("pausa", ({ levelId, coins } = { levelId: 0, coins: 0 }) => {
+function addButton(txt, p, f) {
+
+	const btn = add([
+		text(txt),
+		pos(p),
+		area({width: 200, height: 18}),
+		scale(2),
+		origin("center"),
+	])
+
+      add([
+    sprite("menubg", { width: width(), height: height() }),
+    z(-9999),
+    fixed()
+  ]);
+	btn.onClick(f)
+
+	btn.onUpdate(() => {
+		if (btn.isHovering()) {
+			const t = time() * 20
+			btn.color = rgb(
+				wave(0, 255, t),
+				wave(0, 255, t + 2),
+				wave(0, 255, t + 4),
+			)
+			btn.scale = vec2(2)
+		} else {
+			btn.scale = vec2(2)
+			btn.color = rgb()
+		}
+	})
+
+}
+
+addButton("Resume", vec2(775, 200), () => go("game"))
+add([
+  text("Production  \n V17.7.2LNET@latest", {
+    font: "apl386", 
+  })]),
+
+onUpdate(() => cursor("default"))
+
+})
+//Comprob
+function spin(speed = 1200) {
+	let spinning = false
+	return {
+		require: [ "rotate", ],
+		update() {
+			if (!spinning) {
+				return
+			}
+			this.angle -= speed * dt()
+			if (this.angle <= -360) {
+				spinning = false
+				this.angle = 0
+			}
+		},
+		spin() {
+			spinning = true
+		},
+	}
+}
+
+
 loadSprite("sam", "/sprites/dino.png", {
 
 sliceX: 9,
@@ -170,7 +270,6 @@ loadSprite("monedaa", "sprites/monedaa.png", {
   }
 });
 
-
 let BACKGROUND = "ciudadbg";
 const JUMP_FORCE = 1320
 const MOVE_SPEED = 300
@@ -187,7 +286,7 @@ const LEVELS = [
 		"p     $  =      $$       p",//city
 		"p    $   =     ====      p",
 		"p        =      <        p",
-		"p   vl f = $$$$$$$$$$$  @p",
+		"p  2  lf =L$$$$$$$$$$$  +p",
 		"==========================",
 	],
 	[
@@ -200,7 +299,7 @@ const LEVELS = [
 		"p             $              $    p",
 		"p            ===     $      ===   p",
 		"p       $           ===           p",
-		"p?     ===                      @ p",
+		"p?     ===                      ¿ p",
 		"======                        =====",
 	],
         [
@@ -230,9 +329,44 @@ const LEVELS = [
 		"p    $  =                           ",
 		"p    >  =     =>=                   ",
 		"=================                   ",
-	 
 	 ],
-	 [	
+   [
+    "p                                      p",
+		"p                                      p",
+		"p                                      p",
+		"p                                      p",
+		"p                                 @    p",
+		"p                              =====   p",
+    "p                                      p",
+    "p                                      p",
+		"p              =¡         =            p",
+    "p                                      p",
+    "p                                      p",//city
+		"p                                      p",
+		"p        ====                          p",
+    "p                                      p",
+		"p                                      p",
+		"========================================",
+   ],
+   [
+  
+    "                        ",
+    "          @             ",
+    "         =======        ",
+    "                  ===   ",
+    "                        ",
+    "                        ",
+    "                        ",
+    "                  ===!  ",
+    "                        ",
+    "======!                 ",
+    "                        ",//spawn
+    "                        ",
+    "       =¡       =!      ",
+    "                        ",
+    "                         ",
+   ],
+	 [
 		"                                                                        ",
 		"                    $ $ $ $ $ $               $                         ",
 		"                   $   $   $   $             ===                        ",
@@ -242,8 +376,8 @@ const LEVELS = [
 		"               ===================                                      ",
 		"                                                                        ",  
 		"                                                                        ",
-		"       =>=                                                              ",
-		"       ====   $                                     $$$$$$              ",
+		"      =>=                                                               ",
+    "      ====    $                                     $$$$$$              ",
 	  "             $ $                                   ========             ", 
 		"                        $                   $                           ",
 		"             ^^^       ===                 ===                          ",
@@ -257,29 +391,34 @@ const LEVELS = [
 		"                                             $      =====               ",  
 		"                                                                        ",
 		"                         $    $    $         ^                          ",
-		"                                           =====                        ",          
+		"                                           =====                        ",         
     "                                                                        ",
 		"                        ^^^  ^^^  ^^^                                   ",
-		"==============      ===================                                 ",
+		"============     ¡     ================                                 ",
 	],
 	[
-    "p           @                          ",
-		"p   ===========                        ",
-    "p                                      ", 	
-    "p                                      ",
-    "p                                      ",
-		"p          ===============             ",
-		"p                                      ",
-    "p                                      ",
-    "p                                      ",
-    "p                                      ", // bosque fuera
-		"p                       =======        ",
-		"p      =======                         ",
-		"p                                      ",
-		"p                                      ",
-		"    2             2                2   ",
-		"                                      @",
+    "w                                      ",
+    "w                                      ",
+    "w           @                          ",
+		"w   ===========                        ",
+    "w                                      ", 	
+    "w                                      ",
+    "w                                      ",
+		"w          ===============             ",
+		"w                                      ",
+    "w                                      ",
+    "w                                      ",
+    "w                                      ", // bosque fuera
+		"w                       =======        ",
+		"w      =======                         ",
+		"w                                      ",
+		"w                                      ",
+		"w   2             2                2   ",
+		"w                                     @",
 		"=======================================",
+    "                                       ",
+    "                                       ",
+    "                                       ",
 ], 
 [
   "                         ",
@@ -289,19 +428,28 @@ const LEVELS = [
   "                         ",// bosque fuera
   "                       @ ",
   "                   ======",
-  "   l    = f  =           ",
+  "   l    = f  =           ",//spawn
   "================         ",
+  "                         ",
+  "                         ",
+  "                         ",
+  "                         ",
 ],
 [
-  "              ",
-  "            @ ",
-  "          ====",
-  "              ",
-  "    = f =     ",//bosque dentro
-  "    =====     ",
-  "              ",
-  "===           ",
-  "              ",
+  "                         ",
+  "                         ",
+  "                         ",
+  "            @            ",
+  "          ====           ",//spawn
+  "                         ",
+  "    = f =                ",//bosque dentro
+  "    =====                ",
+  "                         ",
+  "===                      ",
+  "                         ",
+  "                         ",
+  "                         ",
+  "                         ",
 ],
 [
   "                        ",
@@ -319,23 +467,58 @@ const LEVELS = [
   "====                    ",
 ],
 [
-  "                                          ",
-  "                                          ",
-  "      ====                                ",
-  "                                        @ ",
-  "           = f    =                   ====",
-  "           ========                       ",
-  "                                          ",
-  "                                          ",  // bosque dentro
-  "                  =          =====        ",
-  "                 ===                      ",
-  "                                          ",
-  "                                          ",
-  "                     = f f =              ",
-  "       =========     =======              ",
-  " ===                                      ",
-  "                                          ",
+  "                                               ",
+  "                                               ",
+  "      ====                                     ",
+  "                                             @ ",
+  "           = f    =                        ====",
+  "           ========                            ",
+  "                                               ",
+  "                                               ",  // bosque dentro
+  "                       =          =====        ",
+  "                      ===                      ",
+  "                                               ",
+  "                                               ",
+  "                           = f f =             ",
+  "       =============       =======             ",
+  " ===                                           ",
+  "                                               ",
 ],
+[
+  "                             ",
+  "                             ",
+  "          @                  ",
+  "         ======              ",
+  "                  b          ",
+  "                 =====       ",//b=other enemy
+  "                             ",
+  "                             ",
+  "                       ====  ",
+  "                             ",
+  "               ======        ",
+  "           b=                ",
+  "=============                "
+],
+[
+  "            @           ",
+  "                     @  ",
+  "     G             ==== ",
+  "    ====                ",
+  "              ====      ",
+  "                        ",//G="checkpoint"
+  "           L            ",
+  "        =====           ",
+  "                        ",
+  "                     @  ",
+  "     b             ==== ",
+  "    =====               ",
+  "            =  f =      ",
+  "            ======      ",
+  "                        ",
+  "     =====              ",
+  "                        ",
+  "====                    ",
+  ],
   [
     "   @          ^              ",
     "   pppp       ppp     ppppp  ",
@@ -348,10 +531,10 @@ const LEVELS = [
     "        p    ^     pppp    p ",//ruinas
     "        <  ppppp    pp<    < ",
     "      ^    <ppp<    <p       ",
-    "    ppp     <p          pp   ",
-    "     p<                  p   ",
+    "    rpp     <p          pp   ",
+    "     r<                  p   ",
     "     <                   <   ",
-    "pppp                         ",
+    "rrrr                         ",
   ],
   [
     "        ppp  ^  ^                             ",
@@ -429,7 +612,7 @@ const LEVELS = [
   ],
   [
     "                                                    ppp     ",
-    "                                            ^      ^      ^ ",
+    "                                            ^             ^ ",
     "                               p   p        p    ppp    ppp ", 
     "          ^                          p     p      p         ",
     "        ppp            ^ ^  p         ppppp  ppp            ",
@@ -517,6 +700,20 @@ const levelConf = {
 		solid(),
 		origin("bot"),
   ],
+  "¡": () => [
+		sprite("grass"),
+		area(),
+		solid(),
+    block(),
+		origin("bot"),
+  ],
+  "!": () => [
+		sprite("grass"),
+		area(),
+		solid(),
+    block(),
+		origin("bot"),
+  ],
   "w": () => [
 		sprite("wood"),
 		area(),
@@ -549,7 +746,13 @@ const levelConf = {
     human(),
 		origin("bot"),
 	],
-
+"L": () => [
+		sprite("letrero"),
+		area({width: 40, height: 40}),
+		solid(),
+    scale(1.5),
+		origin("bot"),
+	],
 	"v": () => [
 		sprite("valeuwu"),
 		area({width: 15, height: 16}),
@@ -613,6 +816,34 @@ const levelConf = {
 		origin("bot"),
 		"gem",
 	],
+  "6": () => [
+		sprite("gemp1"),
+		area(),
+		pos(0, -9),
+		origin("bot"),
+		"gem",
+	],
+  "7": () => [
+		sprite("gemp2"),
+		area(),
+		pos(0, -9),
+		origin("bot"),
+		"gem",
+	],
+  "4": () => [
+		sprite("gemp3"),
+		area(),
+		pos(0, -9),
+		origin("bot"),
+		"gem",
+	],
+  "5": () => [
+		sprite("gemp4"),
+		area(),
+		pos(0, -9),
+		origin("bot"),
+		"gem",
+	],
 	"%": () => [
 		sprite("prize"),
 		area(),
@@ -665,6 +896,20 @@ const levelConf = {
 		pos(0, -12),
 		"portal",
 	],
+  "+": () => [
+		sprite("portal", { anim: 'idle' }),
+		area({width: 64, height: 64}),
+		origin("bot"),
+		pos(0, -12),
+		"popocine1",
+	],
+  "¿": () => [
+		sprite("portal", { anim: 'idle' }),
+		area({width: 64, height: 64}),
+		origin("bot"),
+		pos(0, -12),
+		"popopocine2",
+	],
   	"?": () => [
 		sprite("portal", { anim: 'idle' }),
 		area({width: 64, height: 64}),
@@ -690,6 +935,7 @@ gravity(3200)
 	const level = addLevel(LEVELS[levelId ?? 0], levelConf)
 
 let myCheckpoint = vec2(177, 179)
+let myCheckpointfix = vec2(140, 116)
 
 
     add([
@@ -702,15 +948,17 @@ const player = add([
 	pos(80, 180),
 	origin("center"),
 	area({width: 10, height: 20}),
-	body(),
+	body({ jumpForce: JUMP_FORCE, }),
   scale(22),
   big(),
+  rotate(0),
+	spin(),
 	origin("bot"),
 ])
 
 player.onUpdate(() => {
      if(player.pos.x > 210) { 
-         myCheckpoint = vec2(210, 580);
+         myCheckpointfix = vec2(140, 116);
      }
 })
 
@@ -723,11 +971,14 @@ player.onGround(() => {
 		player.play("run")
 	}
 })
-
+	player.onDoubleJump(() => {
+		player.spin()
+	})
 
 
 onKeyPress("space", () => {
 	if (player.isGrounded()) {
+    player.doubleJump()
 		player.jump(JUMP_FORCE)
     player.biggify(3)
 		player.play("jump")
@@ -809,6 +1060,62 @@ player.play("idle")
         BACKGROUND = "bfuerabg"
       }
     })
+	player.onCollide("popocine1", async () => {
+		play("portal")
+		location.href = "https://luisweb.cf/pege/cinematic"
+    await wait(1)
+		if (levelId + 1 < LEVELS.length) {
+			go("game", {
+				levelId: levelId + 1,
+				coins: coins,
+			})
+		} else {
+			go("win")
+		}
+      if (levelId < 6) {
+        BACKGROUND = "ciudadbg"
+      }
+     if (levelId == 6) {
+        BACKGROUND = "bfuerabg"
+      }
+     if (levelId == 7) {
+        BACKGROUND = "bfuerabg"
+      }
+      if (levelId == 8) {
+        BACKGROUND = "forestbg"
+      }
+      if (levelId == 9) {
+        BACKGROUND = "bfuerabg"
+      }
+    })
+	player.onCollide("popopocine2", async () => {
+		play("portal")
+		location.href = "https://luisweb.cf/pege/cinematic"
+    await wait(1)
+		if (levelId + 1 < LEVELS.length) {
+			go("game", {
+				levelId: levelId + 1,
+				coins: coins,
+			})
+		} else {
+			go("win")
+		}
+      if (levelId < 6) {
+        BACKGROUND = "ciudadbg"
+      }
+     if (levelId == 6) {
+        BACKGROUND = "bfuerabg"
+      }
+     if (levelId == 7) {
+        BACKGROUND = "bfuerabg"
+      }
+      if (levelId == 8) {
+        BACKGROUND = "forestbg"
+      }
+      if (levelId == 9) {
+        BACKGROUND = "bfuerabg"
+      }
+    })
 
   player.onCollide("otroportal", async () => {
 		play("portal")
@@ -823,11 +1130,30 @@ player.play("idle")
 			go("win")
 		}
     if (levelId == 2) {
-        BACKGROUND = "icebg"
-      } else {
+        BACKGROUND = "forestbg"
+      } 
+     if (levelId == 3) {
         BACKGROUND = "ruinasbg"
       }
-     if (levelId == 3) {
+     if (levelId == 4) {
+        BACKGROUND = "ruinasbg"
+      }
+     if (levelId == 5) {
+        BACKGROUND = "ruinasbg"
+      }
+     if (levelId == 6) {
+        BACKGROUND = "ruinasbg"
+      }
+     if (levelId == 7) {
+        BACKGROUND = "ruinasbg"
+      }
+     if (levelId == 8) {
+        BACKGROUND = "ruinasbg"
+      }
+     if (levelId == 9) {
+        BACKGROUND = "ruinasbg"
+      }
+     if (levelId == 10) {
         BACKGROUND = "ruinasbg"
       }
     })
@@ -893,10 +1219,10 @@ if (!col.isBottom()) {
 	})
 
 player.onCollide("gem", (c, p) => {
-		player.move(500)
+	player.move(100)
   destroy(c, p)
-  play("coin")
-  player.jump(JUMP_FORCE * 7.7)
+  play("yei")
+  player.jump(JUMP_FORCE * 1.2)
 	})
 
   
@@ -911,6 +1237,7 @@ player.onCollide("gem", (c, p) => {
 
 		if (player.isGrounded()) {
 			player.jump(JUMP_FORCE)
+      player.doubleJump()
       player.biggify(5)
 		}
 	})
@@ -938,6 +1265,10 @@ player.onCollide("gem", (c, p) => {
 
 	onKeyPress("f", () => {
 		fullscreen(!fullscreen())
+	})
+
+  	onKeyPress("escape", () => {
+		go("pausa")
 	})
 		onKeyPress("f8", () => {
 		add([
@@ -971,7 +1302,7 @@ player.onCollide("gem", (c, p) => {
 		}
 			
 	})
-
+                  
 })
 
 scene("lose", () => {
@@ -979,7 +1310,7 @@ scene("lose", () => {
 		text("NOT USED, HOWEVER DEVELOPERS KNOW WHAT THEY DO ;)"),
 	])
 	onKeyRelease(() => {
-    player.pos = myCheckpoint;
+    go("game")
 	})
 })
 

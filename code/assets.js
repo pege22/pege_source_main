@@ -10,9 +10,10 @@ export default function loadAssets() {
 	loadSprite("piedra", "sprites/piedra.png");
   loadSprite("piedra", "sprites/piedra.png");
   loadSprite("wood", "sprites/Wood_BLOCKS_0.png");
-  loadSprite("montaña", "sprites/Mountain.png");
+  loadSprite("mountain", "sprites/Mountain.png");
   loadSprite("Ruins", "sprites/Ruins_BLOCKS_0.png");
   loadSprite("mafe", "sprites/Mafe.png.png");
+  loadSprite("letrero", "sprites/Letrero_BLOCKS.png");
   loadSprite("mateo", "sprites/Personajes_Mateo.png");
   loadSprite("developer", "sprites/Personajes_Luis.png");
   loadSprite("casti", "sprites/Personajes_Casti.png");
@@ -21,6 +22,11 @@ export default function loadAssets() {
   loadSprite("valeuwu", "sprites/Personajes_ValeQ.png");
   loadSprite("july", "sprites/Personajes_July.png");
 	loadSprite("prize", "sprites/jumpy.png");
+  loadSprite("gemp1", "sprites/gemp1.png");
+  loadSprite("gemp2", "sprites/gemp2.png");
+  loadSprite("gemp3", "sprites/gemp3.png");
+  loadSprite("gemp4", "sprites/gemp4.png");
+  loadSprite("gemp5", "sprites/gemp5.png");
   loadSprite("gem", "sprites/gem.png");
   loadSprite("bfuerabg", "sprites/descarga.png");
   loadSprite("menubg", "sprites/manubg2.gif");
@@ -32,5 +38,6 @@ export default function loadAssets() {
 	loadSound("powerup", "sounds/powerup.mp3");
 	loadSound("blip", "sounds/blip.mp3");
 	loadSound("hit", "sounds/hit.mp3");
+  loadSound("yei", "sounds/congrat2.mp3");
 	loadSound("portal", "sounds/portal.mp3");
 }
