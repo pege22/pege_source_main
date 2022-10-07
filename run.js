@@ -157,13 +157,14 @@ app.use(express.json({ strict: false }));
 app.get("/", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
-	res.sendFile(__dirname + "/www/auth.html");
+	res.sendFile(__dirname + "/www/index.html");
 	render();
 });
-app.get("/main", (req, res) => {
+
+app.get("/animstart", (req, res) => {
 	err = null;
 	buildGame(); //Mostrar juego
-	res.sendFile(__dirname + "/www/index.html");
+	res.sendFile(__dirname + "/www/anim.html");
 	render();
 });
 

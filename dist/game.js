@@ -3132,6 +3132,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           const btn = add([
             text(txt),
             pos(p),
+            go("game"),
+            {
+              levelId: levelId + 3,
+              coins: coins + 1e3
+            },
             area({ width: 200, height: 18 }),
             scale(2),
             origin("center")
@@ -3141,7 +3146,12 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             z(-9999),
             fixed()
           ]);
-          btn.onClick(f2);
+          btn.onClick(() => {
+            go("game"), {
+              levelId: levelId + 3,
+              coins: coins + 1e3
+            };
+          });
           btn.onUpdate(() => {
             if (btn.isHovering()) {
               const t = time() * 20;
@@ -3158,12 +3168,15 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           });
         }
         __name(addButton, "addButton");
-        addButton("Resume", vec2(775, 200), () => go("game"));
+        addButton("Resume", vec2(775, 200), () => go("game")), {
+          levelId: levelId + 3,
+          coins: coins + 1e3
+        };
         add([
           text("Production  \n V17.7.2LNET@latest", {
             font: "apl386"
           })
-        ]), onUpdate(() => cursor("default"));
+        ]), onUpdate(() => cursor("sam"));
       });
       function spin(speed = 1200) {
         let spinning = false;
@@ -3185,6 +3198,49 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         };
       }
       __name(spin, "spin");
+      var player = get("player")[0];
+      function addDialog() {
+        const h = 160;
+        const pad = 16;
+        const bg = add([
+          pos(0, height() - h),
+          rect(width(), h),
+          color(0, 0, 0),
+          z(100)
+        ]);
+        const txt = add([
+          text("", {
+            width: width()
+          }),
+          pos(0 + pad, height() - h + pad),
+          z(100)
+        ]);
+        bg.hidden = true;
+        txt.hidden = true;
+        return {
+          say(t) {
+            txt.text = t;
+            bg.hidden = false;
+            txt.hidden = false;
+          },
+          dismiss() {
+            if (!this.active()) {
+              return;
+            }
+            txt.text = "";
+            bg.hidden = true;
+            txt.hidden = true;
+          },
+          active() {
+            return !bg.hidden;
+          },
+          destroy() {
+            bg.destroy();
+            txt.destroy();
+          }
+        };
+      }
+      __name(addDialog, "addDialog");
       loadSprite("sam", "/sprites/dino.png", {
         sliceX: 9,
         anims: {
@@ -3229,6 +3285,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       var JUMP_FORCE = 1320;
       var MOVE_SPEED = 300;
       var FALL_DEATH = 3010;
+      var DASH__MOVE = 1200;
       var LEVELS = [
         [
           "p                        p",
@@ -3240,7 +3297,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           "p     $  =      $$       p",
           "p    $   =     ====      p",
           "p        =      <        p",
-          "p  2  lf =L$$$$$$$$$$$  +p",
+          "pa 2  lf =L$$$$$$$$$$$  +p",
           "=========================="
         ],
         [
@@ -3317,7 +3374,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           "                        ",
           "       =\xA1       =!      ",
           "                        ",
-          "                         "
+          "                        "
         ],
         [
           "                                                                        ",
@@ -3347,7 +3404,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           "                                           =====                        ",
           "                                                                        ",
           "                        ^^^  ^^^  ^^^                                   ",
-          "============     \xA1     ================                                 "
+          "============     \xA1    =================                                 "
         ],
         [
           "w                                      ",
@@ -3381,7 +3438,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           "                         ",
           "                       @ ",
           "                   ======",
-          "   l    = f  =           ",
+          "   l    = f    =         ",
           "================         ",
           "                         ",
           "                         ",
@@ -3392,11 +3449,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           "                         ",
           "                         ",
           "                         ",
-          "            @            ",
-          "          ====           ",
+          "                       @ ",
+          "                     ====",
           "                         ",
-          "    = f =                ",
-          "    =====                ",
+          "    = f       =          ",
+          "    ===========          ",
           "                         ",
           "===                      ",
           "                         ",
@@ -3405,37 +3462,41 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           "                         "
         ],
         [
-          "                        ",
-          "                        ",
-          "    @                   ",
-          "   ======               ",
-          "          =======       ",
-          "                        ",
-          "                        ",
-          "                  ====  ",
-          "                        ",
-          "      = f  f  f =       ",
-          "      ===========       ",
-          "                        ",
-          "====                    "
+          "                               ",
+          "                               ",
+          "       @                       ",
+          "      ======                   ",
+          "                               ",
+          "                               ",
+          "               =======         ",
+          "                               ",
+          "                               ",
+          "                               ",
+          "                         ====  ",
+          "                               ",
+          "                               ",
+          "      =  f   f   f   =         ",
+          "      ================         ",
+          "                               ",
+          "====                           "
         ],
         [
-          "                                               ",
-          "                                               ",
-          "      ====                                     ",
-          "                                             @ ",
-          "           = f    =                        ====",
-          "           ========                            ",
-          "                                               ",
-          "                                               ",
-          "                       =          =====        ",
-          "                      ===                      ",
-          "                                               ",
-          "                                               ",
-          "                           = f f =             ",
-          "       =============       =======             ",
-          " ===                                           ",
-          "                                               "
+          "                                                    ",
+          "                                                    ",
+          "      ====                                          ",
+          "                                                  @ ",
+          "           = f    =                             ====",
+          "           ========                                 ",
+          "                                                    ",
+          "                                                    ",
+          "                       =                 =====      ",
+          "                      ===                           ",
+          "                                                    ",
+          "                                                    ",
+          "                           = f f     =              ",
+          "       =============       ===========              ",
+          " ===                                                ",
+          "                                                    "
         ],
         [
           "                             ",
@@ -3474,36 +3535,36 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         ],
         [
           "   @          ^              ",
-          "   pppp       ppp     ppppp  ",
-          "       pppp   <p<     <ppp   ",
+          "   rrpp       prp     pprpp  ",
+          "       prpp   <p<     <ppp   ",
           "                        p<   ",
           "                            p",
           "                            <",
           "         ^                   ",
-          "       ppp           ^^      ",
-          "        p    ^     pppp    p ",
-          "        <  ppppp    pp<    < ",
-          "      ^    <ppp<    <p       ",
+          "       rpp           ^^      ",
+          "        p    ^     prpp    p ",
+          "        <  pprpp    pp<    < ",
+          "      ^    <rpp<    <p       ",
           "    rpp     <p          pp   ",
           "     r<                  p   ",
           "     <                   <   ",
-          "rrrr                         "
+          "prpp                         "
         ],
         [
-          "        ppp  ^  ^                             ",
-          "        <p ppppppp      ^^^  p             ^ @",
-          "            <ppp<       ppp  <   pp      ppppp",
-          "  ppppp                  <        p    <  ppp<",
-          "   ppp<             ppp           <  ppp  <p  ",
-          "   <p   ppp          p<p    pp        p    <  ",
-          "         p<          <      <                 ",
-          "                                              ",
-          "                                              ",
-          "            ppp                               ",
-          "            <p                                ",
-          "                 p    ^    pp                ",
-          "           ^         pppp                     ",
-          "pppp     pppp          p  p                   "
+          "         ppp  ^  ^                             ",
+          "         <p ppppppp      ^^^  p             ^ @",
+          "             <ppp<       ppp  <   pp      ppppp",
+          "   ppppp                  <        p    <  ppp<",
+          "    ppp<             ppp           <  ppp  <p  ",
+          "    <p   ppp          p<p    pp        p    <  ",
+          "          p<          <      <                 ",
+          "                                               ",
+          "                                               ",
+          "            ppp                                ",
+          "            <p                                 ",
+          "                 p    ^    pp                 ",
+          "           ^         pppp                      ",
+          "pppp     pppp          p  p                    "
         ],
         [
           "                 ^^^^       ",
@@ -3530,38 +3591,6 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           "      <<      <p<ppppppppp  ",
           "           ^   <            ",
           "ppppp    ppppp              "
-        ],
-        [
-          "         @               ^         ",
-          "         p               p         ",
-          "         p              ^p^        ",
-          "        ppp             ppp        ",
-          "        ppp             ppp        ",
-          "       ppppp      p  pppppppp  pp  ",
-          "        ppp       p      p      p  ",
-          "         <        p     ^p^    ^p  ",
-          "                  ppp  pppp   ppp  ",
-          "                                   ",
-          "                                ^  ",
-          "       ^  ^       ppppp  pppppppp  ",
-          "     ppppppppp                  p  ",
-          "                              ^^p  ",
-          "   ppppp    pp    ppppppp    ppppp ",
-          "    ppp                  p  p    p ",
-          "     <                           p ",
-          "                                 p ",
-          "  p               p              p ",
-          "                  pppppppppppppppp ",
-          "                      p<   <   <   ",
-          "   ^              ppppp            ",
-          "   ppp                             ",
-          "   pp                              ",
-          "                                   ",
-          "                                   ",
-          "      ppp      pppppppppp    p    p",
-          "      <p<                          ",
-          "              ^^^^^^^^^^^^^^^^^^^^^",
-          "ppppp     ppppppppppppppppppppppppp"
         ],
         [
           "                                                    ppp     ",
@@ -3622,7 +3651,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         ],
         [
           " pppp ppp ppp p  ppp p  p pp  ",
-          "   p  p p  p  p  p p pp p p p ",
+          "   p  p9p  p  p  p p pp p p p ",
           "  p   ppp  p  p  ppp p pp p p ",
           " pppp p p ppp pp p p p  p pp  ",
           "                         ^    ",
@@ -3702,6 +3731,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
         "L": () => [
           sprite("letrero"),
           area({ width: 40, height: 40 }),
+          addDialog(),
           solid(),
           scale(1.5),
           origin("bot")
@@ -3720,7 +3750,8 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           solid(),
           scale(2.1),
           human(),
-          origin("bot")
+          origin("bot"),
+          "developer"
         ],
         "s": () => [
           sprite("silvi"),
@@ -3873,6 +3904,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       scene("game", ({ levelId, coins, anims } = { levelId: 0, coins: 0 }) => {
         gravity(3200);
         const level = addLevel(LEVELS[levelId != null ? levelId : 0], levelConf);
+        const dialog = addDialog();
         let myCheckpoint = vec2(177, 179);
         let myCheckpointfix = vec2(140, 116);
         add([
@@ -3880,7 +3912,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           z(-9999),
           fixed()
         ]);
-        const player = add([
+        const player2 = add([
           sprite("sam", { anim: "idle" }),
           pos(80, 180),
           origin("center"),
@@ -3892,68 +3924,81 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           spin(),
           origin("bot")
         ]);
-        player.onUpdate(() => {
-          if (player.pos.x > 210) {
+        player2.onCollide("developer", (ch) => __async(exports, null, function* () {
+          dialog.say("test");
+          yield wait(3);
+          dialog.destroy();
+        }));
+        player2.onUpdate(() => {
+          if (player2.pos.x > 210) {
             myCheckpointfix = vec2(140, 116);
           }
         });
-        player.onGround(() => {
+        player2.onGround(() => {
           if (!isKeyDown("left") && !isKeyDown("right")) {
-            player.play("idle");
+            player2.play("idle");
           } else {
-            player.play("run");
+            player2.play("run");
           }
         });
-        player.onDoubleJump(() => {
-          player.spin();
+        player2.onDoubleJump(() => {
+          player2.spin();
         });
         onKeyPress("space", () => {
-          if (player.isGrounded()) {
-            player.doubleJump();
-            player.jump(JUMP_FORCE);
-            player.biggify(3);
-            player.play("jump");
+          if (player2.isGrounded()) {
+            player2.doubleJump();
+            player2.jump(JUMP_FORCE);
+            player2.biggify(3);
+            player2.play("jump");
           }
         });
         onKeyPress("up", () => {
-          if (player.isGrounded()) {
-            player.jump(JUMP_FORCE);
-            player.biggify(4);
-            player.play("jump");
+          if (player2.isGrounded()) {
+            player2.jump(JUMP_FORCE);
+            player2.biggify(4);
+            player2.play("jump");
           }
         });
         onKeyDown("left", () => {
-          player.move(-MOVE_SPEED, 0);
-          player.flipX(true);
-          player.biggify(5);
-          if (player.isGrounded() && player.curAnim() !== "run") {
-            player.play("run");
+          player2.move(-MOVE_SPEED, 0);
+          player2.flipX(true);
+          player2.biggify(5);
+          if (player2.isGrounded() && player2.curAnim() !== "run") {
+            player2.play("run");
           }
         });
         onKeyDown("right", () => {
-          player.move(MOVE_SPEED, 0);
-          player.flipX(false);
-          player.biggify(5);
-          if (player.isGrounded() && player.curAnim() !== "run") {
-            player.play("run");
+          player2.move(MOVE_SPEED, 0);
+          player2.flipX(false);
+          player2.biggify(5);
+          if (player2.isGrounded() && player2.curAnim() !== "run") {
+            player2.play("run");
           }
         });
+        onKeyDown("c", () => __async(exports, null, function* () {
+          player2.move(DASH__MOVE, 0);
+          player2.flipX(false);
+          player2.biggify(5);
+          if (player2.isGrounded() && player2.curAnim() !== "run") {
+            player2.play("run");
+          }
+        }));
         onKeyRelease(["left", "right"], () => {
-          if (player.isGrounded() && !isKeyDown("left") && !isKeyDown("right")) {
-            player.play("idle");
+          if (player2.isGrounded() && !isKeyDown("left") && !isKeyDown("right")) {
+            player2.play("idle");
           }
         });
-        player.onUpdate(() => {
-          camPos(player.pos);
-          if (player.pos.y >= FALL_DEATH) {
-            player.pos = myCheckpoint;
+        player2.onUpdate(() => {
+          camPos(player2.pos);
+          if (player2.pos.y >= FALL_DEATH) {
+            player2.pos = myCheckpoint;
           }
         });
-        player.onCollide("danger", () => {
-          player.pos = myCheckpoint;
+        player2.onCollide("danger", () => {
+          player2.pos = myCheckpoint;
           play("hit");
         });
-        player.onCollide("portal", () => __async(exports, null, function* () {
+        player2.onCollide("portal", () => __async(exports, null, function* () {
           play("portal");
           yield wait(1);
           if (levelId + 1 < LEVELS.length) {
@@ -3980,7 +4025,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             BACKGROUND = "bfuerabg";
           }
         }));
-        player.onCollide("popocine1", () => __async(exports, null, function* () {
+        player2.onCollide("popocine1", () => __async(exports, null, function* () {
           play("portal");
           location.href = "https://luisweb.cf/pege/cinematic";
           yield wait(1);
@@ -4008,7 +4053,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             BACKGROUND = "bfuerabg";
           }
         }));
-        player.onCollide("popopocine2", () => __async(exports, null, function* () {
+        player2.onCollide("popopocine2", () => __async(exports, null, function* () {
           play("portal");
           location.href = "https://luisweb.cf/pege/cinematic";
           yield wait(1);
@@ -4036,9 +4081,9 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             BACKGROUND = "bfuerabg";
           }
         }));
-        player.onCollide("otroportal", () => __async(exports, null, function* () {
+        player2.onCollide("otroportal", () => __async(exports, null, function* () {
           play("portal");
-          yield wait(1);
+          yield wait(0.5);
           if (levelId - 1 < LEVELS.length) {
             go("game", {
               levelId: levelId - 1,
@@ -4075,23 +4120,23 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             BACKGROUND = "ruinasbg";
           }
         }));
-        player.onGround((l) => {
+        player2.onGround((l) => {
           if (l.is("enemy")) {
-            player.jump(JUMP_FORCE * 1.5);
+            player2.jump(JUMP_FORCE * 1.5);
             play("powerup");
           }
         });
-        player.onCollide("player", "enemy", (p, e) => {
-          player.pos = myCheckpoint;
+        player2.onCollide("player", "enemy", (p, e) => {
+          player2.pos = myCheckpoint;
         });
-        player.onCollide("enemy", (e, col) => {
+        player2.onCollide("enemy", (e, col) => {
           if (!col.isBottom()) {
             play("hit");
-            player.pos = myCheckpoint;
+            player2.pos = myCheckpoint;
           }
         });
         let hasApple = false;
-        player.onHeadbutt((obj) => {
+        player2.onHeadbutt((obj) => {
           if (obj.is("prize") && !hasApple) {
             const apple = level.spawn("#", obj.gridPos.sub(0, 1));
             apple.jump();
@@ -4099,9 +4144,9 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             play("blip");
           }
         });
-        player.onCollide("apple", (a2) => {
+        player2.onCollide("apple", (a2) => {
           destroy(a2);
-          player.biggify(5);
+          player2.biggify(5);
           hasApple = false;
           play("powerup");
         });
@@ -4111,9 +4156,9 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
             coinPitch = Math.max(0, coinPitch - dt() * 100);
           }
         });
-        player.onCollide("coin", (c) => {
+        player2.onCollide("coin", (c) => {
           destroy(c);
-          player.biggify(5);
+          player2.biggify(5);
           play("coin", {
             detune: coinPitch
           });
@@ -4121,11 +4166,11 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           coins += 1;
           coinsLabel.text = coins;
         });
-        player.onCollide("gem", (c, p) => {
-          player.move(100);
+        player2.onCollide("gem", (c, p) => {
+          player2.move(100);
           destroy(c, p);
           play("yei");
-          player.jump(JUMP_FORCE * 1.2);
+          player2.jump(JUMP_FORCE * 1.2);
         });
         const coinsLabel = add([
           text(coins),
@@ -4133,25 +4178,29 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           fixed()
         ]);
         onKeyPress("space", () => {
-          if (player.isGrounded()) {
-            player.jump(JUMP_FORCE);
-            player.doubleJump();
-            player.biggify(5);
+          if (player2.isGrounded()) {
+            player2.jump(JUMP_FORCE);
+            player2.doubleJump();
+            player2.biggify(5);
           }
         });
         onKeyDown("left", () => {
-          player.move(-MOVE_SPEED, 0);
-          player.biggify(5);
+          player2.move(-MOVE_SPEED, 0);
+          player2.biggify(5);
         });
         onKeyDown("right", () => {
-          player.move(MOVE_SPEED, 0);
-          player.biggify(5);
+          player2.move(MOVE_SPEED, 0);
+          player2.biggify(5);
+        });
+        onKeyPress("c", () => {
+          player2.move(DASH__MOVE, 0);
+          player2.biggify(5);
         });
         onKeyPress("down", () => {
-          player.weight = 3;
+          player2.weight = 3;
         });
         onKeyRelease("down", () => {
-          player.weight = 1;
+          player2.weight = 1;
         });
         onKeyPress("f", () => {
           fullscreen(!fullscreen());
