@@ -1,5 +1,6 @@
 {
     "name": "Zailand-DEV",
+    //Use Electron for better fetch
     "short_name": "Zailand",
     "start_url": "/",
     "scope": ".",
