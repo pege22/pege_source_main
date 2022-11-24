@@ -31,13 +31,13 @@ const rateLimit = require("express-rate-limit");
 //Usar npm "helmet" para protejer la web un poco
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.expectCt());
-app.use(helmet.frameguard());
+//app.use(helmet.frameguard());
 app.use(helmet.hidePoweredBy());
 app.use(helmet.hsts());
 app.use(helmet.ieNoOpen());
 app.use(helmet.noSniff());
 app.use(helmet.originAgentCluster());
-app.use(helmet.permittedCrossDomainPolicies());
+//app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 // Empezar el servidor multijugador
