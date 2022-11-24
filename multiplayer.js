@@ -22,8 +22,8 @@ module.exports = (server) => {
 			// ...
 		});
 
-		conn.send("LuisNet Multi-Started + include https://luisweb.cf/api/v3/servers/c");
-
+		conn.send("LuisNet Multi-Started + include https://luisweb.cf/servers/c");
+//API v3 not used anymore, as it is by socket.io
 	});
 
 };
